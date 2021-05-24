@@ -21,10 +21,10 @@ class _MainScreenState extends State<MainScreen> {
   ];
 
   PageController pageController = new PageController(
-    initialPage: 0,
+    initialPage: 1,
   );
 
-  int paginaSeleccionada = 0;
+  int paginaSeleccionada = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +107,7 @@ class _MainScreenState extends State<MainScreen> {
                       boxShadow: [
                         BoxShadow(
                           blurRadius: 10,
-                          color: Colors.black,
+                          color: Theme.of(context).shadowColor,
                           offset: Offset(0, 3),
                           spreadRadius: -2,
                         ),

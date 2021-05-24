@@ -43,8 +43,8 @@ ThemeData temaPrincipal() {
         ),
         subtitle1: base.headline1.copyWith(
           fontFamily: GoogleFonts.montserrat().fontFamily,
-          fontSize: 11.0,
-          color: Color(0xF242526).withOpacity(.7),
+          fontSize: 14.0,
+          color: Color(0xFFFAFAFA),
         ),
         subtitle2: base.headline1.copyWith(
           fontFamily: GoogleFonts.montserrat().fontFamily,
@@ -65,11 +65,11 @@ ThemeData temaPrincipal() {
   return base.copyWith(
     textTheme: _temaTextoPrincipal(base.textTheme),
     backgroundColor: Color(0xFFFAFAFA),
-    cardColor: Color(0xFF384045),
+    cardColor: Color(0xFFFAFAFA),
     primaryColor: Color(0xFF00A5FF),
-    primaryColorLight: Color(0xFF5BA5FF),
+    primaryColorLight: Color(0xFFE1EAF3),
     primaryColorDark: Color(0xFF0a1c29),
-    shadowColor: Colors.black.withOpacity(.9),
+    shadowColor: Colors.black.withOpacity(.3),
   );
 }
 
