@@ -11,10 +11,6 @@ class InicioScreen extends StatefulWidget {
 class _InicioScreenState extends State<InicioScreen> {
   @override
   Widget build(BuildContext context) {
-    final double itemHeight =
-        (MediaQuery.of(context).size.height - kToolbarHeight - 24) / 2;
-    final double itemWidth = MediaQuery.of(context).size.width / 2;
-
     return SingleChildScrollView(
       child: Container(
         child: Column(
@@ -47,20 +43,25 @@ class _InicioScreenState extends State<InicioScreen> {
               textScaleFactor: .86,
             ),
             Container(height: 40),
-            GridView.builder(
-              shrinkWrap: true,
-              padding: EdgeInsets.all(15),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                childAspectRatio: 1,
-                crossAxisSpacing: 45,
-                mainAxisSpacing: 0,
-                mainAxisExtent: 210,
-                crossAxisCount: (MediaQuery.of(context).size.width ~/ 240) < 1
-                    ? 1
-                    : MediaQuery.of(context).size.width ~/ 240,
-              ),
-              itemBuilder: (_, index) => cardPersona(),
-              itemCount: 20,
+            Wrap(
+              children: [
+                GridView.builder(
+                  shrinkWrap: true,
+                  padding: EdgeInsets.all(15),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    childAspectRatio: 1,
+                    crossAxisSpacing: 45,
+                    mainAxisSpacing: 0,
+                    mainAxisExtent: 170,
+                    crossAxisCount:
+                        (MediaQuery.of(context).size.width ~/ 290) < 1
+                            ? 1
+                            : MediaQuery.of(context).size.width ~/ 290,
+                  ),
+                  itemBuilder: (_, index) => cardPersona(index),
+                  itemCount: 20,
+                ),
+              ],
             ),
           ],
         ),
@@ -68,73 +69,81 @@ class _InicioScreenState extends State<InicioScreen> {
     );
   }
 
-  Widget cardPersona() {
-    return Container(
-      //margin: EdgeInsets.symmetric(horizontal: 15),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: 125,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  blurRadius: 13,
-                  color: Colors.black,
-                  offset: Offset(0, 3),
-                  spreadRadius: -4,
+  Widget cardPersona(int index) {
+    return TextButton(
+      onPressed: () {},
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 15),
+        margin: EdgeInsets.only(bottom: 60),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(4),
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 7,
+              color: Theme.of(context).shadowColor,
+              offset: Offset(0, 3),
+              spreadRadius: -2,
+            ),
+          ],
+          color: Theme.of(context).primaryColorLight,
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 125,
+              width: 125,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image:
+                      NetworkImage("https://www.peterbe.com/avatar.$index.png"),
                 ),
-              ],
-              borderRadius: BorderRadius.circular(8),
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: NetworkImage(
-                    "https://cdn4.iconfinder.com/data/icons/business-square-gradient-shadow-2/512/xxx012-512.png"),
               ),
             ),
-          ),
-          Container(
-            padding: EdgeInsets.all(5),
-            child: Row(
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: Text(
-                    'César Fajardo',
-                    style: Theme.of(context).textTheme.headline4,
-                    textAlign: TextAlign.start,
-                    textScaleFactor: 1.2,
-                  ),
-                ),
                 Container(
-                  height: 22,
-                  width: 22,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: NetworkImage(
-                          "https://image.flaticon.com/icons/png/128/552/552486.png"),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.only(right: 5, left: 5),
-            child: Row(
-              children: [
-                Expanded(
+                  alignment: Alignment.topLeft,
                   child: Text(
-                    '3 Intereses en común',
-                    style: Theme.of(context).textTheme.headline4,
-                    textAlign: TextAlign.start,
+                    'Francisco',
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline4
+                        .copyWith(fontWeight: FontWeight.bold),
                   ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      '22 años',
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline4
+                          .copyWith(fontWeight: FontWeight.bold),
+                    ),
+                    Container(width: 4),
+                    Container(
+                      height: 25,
+                      width: 25,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          //fit: BoxFit.cover,
+                          image: NetworkImage(
+                              "https://cdn.iconscout.com/icon/free/png-256/mexico-3470805-2903258.png"),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
