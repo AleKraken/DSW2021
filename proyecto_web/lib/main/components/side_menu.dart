@@ -13,7 +13,8 @@ class DrawerListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      tileColor: seleccionadoActual == id ? Colors.white.withOpacity(.3) : null,
+      tileColor:
+          seleccionadoActual == id ? Colors.black.withOpacity(.15) : null,
       onTap: press,
       horizontalTitleGap: 0.0,
       leading: Container(
