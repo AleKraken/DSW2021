@@ -1,21 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:proyecto_web/controllers/menuController.dart';
-import 'package:proyecto_web/generalScreen/components/registroScreen.dart';
-import 'package:proyecto_web/generalScreen/generalScreen.dart';
+import 'package:proyecto_web/generalScreen/components/loginScreen.dart';
 import 'package:proyecto_web/main/mainScreen.dart';
-import 'package:proyecto_web/utils/tema.dart';
 
-class LoginScreen extends StatefulWidget {
-  LoginScreen({Key key}) : super(key: key);
+class RegistroScreen extends StatefulWidget {
+  RegistroScreen({Key key}) : super(key: key);
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _RegistroScreenState createState() => _RegistroScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _RegistroScreenState extends State<RegistroScreen> {
   final List<TextEditingController> listaControladores =
       <TextEditingController>[];
   final List<FocusNode> listaFocus = <FocusNode>[];
@@ -23,7 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < 3; i++) {
       listaControladores.add(new TextEditingController());
       listaFocus.add(new FocusNode());
     }
@@ -67,7 +64,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     ],
                   ),
                   padding: EdgeInsets.symmetric(vertical: 20, horizontal: 7),
-                  height: 450,
                   width: MediaQuery.of(context).size.width - 80,
                   constraints: BoxConstraints(
                     maxWidth: 400,
@@ -78,11 +74,17 @@ class _LoginScreenState extends State<LoginScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          'Iniciar Sesión',
+                          'Registro',
                           style: Theme.of(context)
                               .textTheme
                               .headline1
                               .copyWith(color: Color(0xFF333333)),
+                        ),
+                        Container(height: 20),
+                        Text(
+                          '¡Comencemos colocando datos de la cuenta!',
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context).textTheme.headline4,
                         ),
                         Container(height: 50),
                         Container(
@@ -95,6 +97,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           width: 400,
                           alignment: Alignment.center,
                           child: textField(listaControladores[1], 1, context,
+                              'Correo', '', false, 0, MdiIcons.account),
+                        ),
+                        Container(
+                          width: 400,
+                          alignment: Alignment.center,
+                          child: textField(listaControladores[2], 2, context,
                               'Contraseña', '', true, 0, MdiIcons.account),
                         ),
                         Container(height: 20),
@@ -107,7 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   .primaryColor
                                   .withOpacity(.15),
                             ),
-                            child: Text('Iniciar'),
+                            child: Text('Continuar'),
                             onPressed: () {
                               Navigator.pushReplacement(
                                 context,
@@ -130,7 +138,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           width: 300,
                           margin: EdgeInsets.all(5),
                           child: TextButton(
-                            child: Text('¿No tienes una cuenta? Regístrate'),
+                            child: Text('Cancelar'),
+                            style: TextButton.styleFrom(
+                              backgroundColor: Colors.red.withOpacity(.15),
+                            ),
                             onPressed: () {
                               Navigator.pushReplacement(
                                 context,
@@ -141,7 +152,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         create: (context) => MenuController(),
                                       ),
                                     ],
-                                    child: RegistroScreen(),
+                                    child: LoginScreen(),
                                   ),
                                 ),
                               );
