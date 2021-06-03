@@ -17,8 +17,6 @@ class LoginController {
 
     var body = await json.decode(res.body);
 
-    await Future.delayed(Duration(milliseconds: 90));
-
     if (res.statusCode >= 400) {
       return Future.value(false);
     } else {

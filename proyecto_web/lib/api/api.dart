@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -14,7 +15,18 @@ class CallApi {
       body: jsonEncode(data),
       headers: {
         HttpHeaders.contentTypeHeader: "application/json",
-        HttpHeaders.authorizationHeader: await _getToken()
+        HttpHeaders.authorizationHeader: await _getToken(),
+      },
+    );
+  }
+
+  registrar(data, apiUrl) async {
+    var fullUrl = _url + apiUrl;
+    return await http.post(
+      Uri.parse(fullUrl),
+      body: jsonEncode(data),
+      headers: {
+        HttpHeaders.contentTypeHeader: "application/json",
       },
     );
   }
