@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:proyecto_web/controllers/menuController.dart';
+import 'package:proyecto_web/models/usuario.dart';
 import 'package:proyecto_web/screens/components/chatsScreen.dart';
 import 'package:proyecto_web/screens/components/configuracionScreen.dart';
 import 'package:proyecto_web/screens/components/inicioScreen.dart';
@@ -11,28 +12,23 @@ import 'package:proyecto_web/screens/components/vistaUsuarioScreen.dart';
 import 'package:proyecto_web/screens/main/components/sideMenuTile.dart';
 import 'package:proyecto_web/responsive.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class MainScreen extends StatefulWidget {
   final int pantallaInicio;
-  MainScreen(this.pantallaInicio);
+  final Usuario usuario;
+
+  MainScreen(this.pantallaInicio, this.usuario);
 
   @override
-  _MainScreenState createState() => _MainScreenState(pantallaInicio);
+  _MainScreenState createState() => _MainScreenState(pantallaInicio, usuario);
 }
 
 class _MainScreenState extends State<MainScreen> {
   final int pantallaInicio;
-  _MainScreenState(this.pantallaInicio);
+  final Usuario usuario;
+  _MainScreenState(this.pantallaInicio, this.usuario);
 
-  var paginas = [
-    InicioScreen(),
-    InteresesScreen(),
-    ChatsScreen(),
-    ConfiguracionScreen(),
-    PerfilUsuario(),
-    VistaUsuario(),
-  ];
+  var paginas;
 
   PageController pageController;
 
@@ -42,6 +38,14 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     pageController = new PageController(initialPage: pantallaInicio);
     paginaSeleccionada = pantallaInicio;
+    paginas = [
+      InicioScreen(),
+      InteresesScreen(),
+      ChatsScreen(),
+      ConfiguracionScreen(),
+      PerfilUsuario(usuario),
+      VistaUsuario(),
+    ];
     super.initState();
   }
 
@@ -147,7 +151,7 @@ class _MainScreenState extends State<MainScreen> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text('Alejandro Ortega',
+                                    Text('${usuario.nombre}',
                                         textAlign: TextAlign.start,
                                         style: Theme.of(context)
                                             .textTheme

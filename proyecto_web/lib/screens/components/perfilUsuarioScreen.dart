@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:proyecto_web/models/usuario.dart';
 
 class PerfilUsuario extends StatefulWidget {
+  final Usuario usuario;
+  PerfilUsuario(this.usuario);
+
   @override
-  _PerfilUsuarioState createState() => _PerfilUsuarioState();
+  _PerfilUsuarioState createState() => _PerfilUsuarioState(usuario);
 }
 
 class _PerfilUsuarioState extends State<PerfilUsuario> {
+  final Usuario usuario;
+  _PerfilUsuarioState(this.usuario);
+
   final List<TextEditingController> listaControladores =
       <TextEditingController>[];
   final List<FocusNode> listaFocus = <FocusNode>[];
@@ -17,10 +24,8 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
   @override
   void initState() {
     super.initState();
-    for (int i = 0; i < 7; i++) {
-      listaControladores.add(new TextEditingController());
-      listaFocus.add(new FocusNode());
-    }
+    listaControladores.add(new TextEditingController(text: usuario.info));
+    listaFocus.add(new FocusNode());
   }
 
   @override
@@ -69,7 +74,7 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
                       ),
                       Container(height: 10),
                       Text(
-                        'Alejandro Ortega',
+                        '${usuario.nombre}',
                         style: Theme.of(context)
                             .textTheme
                             .headline2
@@ -79,44 +84,36 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
                       Container(
                         width: 400,
                         alignment: Alignment.center,
-                        child: textField(listaControladores[0], 0, context,
-                            'Usuario', '', false, 0, MdiIcons.account),
+                        child: textField(listaControladores[0], 0, context, '',
+                            'Info', false, 0, MdiIcons.account),
                       ),
-                      Container(
-                        width: 400,
-                        alignment: Alignment.center,
-                        child: textField(listaControladores[1], 1, context,
-                            'Correo', '', false, 0, MdiIcons.account),
+                      Container(height: 20),
+                      Text('Correo: ${usuario.email}',
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline4
+                              .copyWith(fontWeight: FontWeight.bold)),
+                      Container(height: 20),
+                      Text('País: ${usuario.idPais}',
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline4
+                              .copyWith(fontWeight: FontWeight.bold)),
+                      Container(height: 20),
+                      Text(
+                        'Edad: ${usuario.edad}',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline4
+                            .copyWith(fontWeight: FontWeight.bold),
                       ),
-                      Container(
-                        width: 400,
-                        alignment: Alignment.center,
-                        child: textField(listaControladores[2], 2, context,
-                            'Nombre', '', false, 0, MdiIcons.account),
-                      ),
-                      Container(
-                        width: 400,
-                        alignment: Alignment.center,
-                        child: textField(listaControladores[3], 3, context,
-                            'Apellido', '', false, 0, MdiIcons.account),
-                      ),
-                      Container(
-                        width: 400,
-                        alignment: Alignment.center,
-                        child: textField(listaControladores[4], 4, context,
-                            'País', '', false, 0, MdiIcons.account),
-                      ),
-                      Container(
-                        width: 400,
-                        alignment: Alignment.center,
-                        child: textField(listaControladores[5], 5, context,
-                            'Edad', '', false, 0, MdiIcons.account),
-                      ),
-                      Container(
-                        width: 400,
-                        alignment: Alignment.center,
-                        child: textField(listaControladores[6], 6, context,
-                            'Contraseña', '', false, 0, MdiIcons.account),
+                      Container(height: 20),
+                      Text(
+                        'Género: ${usuario.idGenero}',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline4
+                            .copyWith(fontWeight: FontWeight.bold),
                       ),
                       Container(height: 20),
                       Container(
@@ -152,62 +149,54 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
       bool esClave,
       int limiteCampo,
       IconData icono) {
-    return Container(
-      alignment: Alignment.center,
-      padding: EdgeInsets.symmetric(
-        horizontal: 15,
-      ),
-      child: Stack(
-        children: [
-          Container(
-            height: 75,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
+    return SizedBox(
+      height: 35,
+      child: Container(
+        alignment: Alignment.center,
+        padding: EdgeInsets.symmetric(
+          horizontal: 15,
+        ),
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 15),
+          child: TextField(
+            keyboardType: TextInputType.text,
+            obscureText: esClave ? true : false,
+            controller: controlador,
+            textAlign: TextAlign.left,
+            textCapitalization: TextCapitalization.sentences,
+            maxLines: 1,
+            maxLength: limiteCampo < 1 ? null : limiteCampo,
+            cursorColor: Theme.of(context).iconTheme.color,
+            textAlignVertical: TextAlignVertical.bottom,
+            decoration: InputDecoration(
+              prefixIcon: Icon(icono),
+              hintStyle: Theme.of(context)
+                  .textTheme
+                  .subtitle1
+                  .copyWith(color: Color(0xFF333333)),
+              labelText: "$textoLabel",
+              hintText: "$textoHint",
+              contentPadding: EdgeInsets.all(8),
+              labelStyle: Theme.of(context)
+                  .textTheme
+                  .subtitle1
+                  .copyWith(color: Color(0xFF333333)),
             ),
+            style: Theme.of(context).textTheme.subtitle1.copyWith(
+                  color: Color(0xFF333333),
+                  fontSize: esClave ? 20 : null,
+                ),
+            focusNode: listaFocus[index],
+            onSubmitted: (texto) {
+              if (index < listaControladores.length - 1) {
+                FocusScope.of(context).requestFocus(listaFocus[index + 1]);
+              } else {
+                FocusScope.of(context).unfocus();
+              }
+            },
+            onChanged: (texto) {},
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15),
-            child: TextField(
-              keyboardType: TextInputType.text,
-              obscureText: esClave ? true : false,
-              controller: controlador,
-              textAlign: TextAlign.left,
-              textCapitalization: TextCapitalization.sentences,
-              maxLines: 1,
-              maxLength: limiteCampo < 1 ? null : limiteCampo,
-              cursorColor: Theme.of(context).iconTheme.color,
-              textAlignVertical: TextAlignVertical.bottom,
-              decoration: InputDecoration(
-                border: new OutlineInputBorder(),
-                prefixIcon: Icon(icono),
-                hintStyle: Theme.of(context)
-                    .textTheme
-                    .headline3
-                    .copyWith(color: Color(0xFF333333)),
-                labelText: "$textoLabel",
-                hintText: "$textoHint",
-                contentPadding: EdgeInsets.all(20),
-                labelStyle: Theme.of(context)
-                    .textTheme
-                    .subtitle1
-                    .copyWith(color: Color(0xFF333333)),
-              ),
-              style: Theme.of(context).textTheme.subtitle1.copyWith(
-                    color: Color(0xFF333333),
-                    fontSize: esClave ? 20 : null,
-                  ),
-              focusNode: listaFocus[index],
-              onSubmitted: (texto) {
-                if (index < listaControladores.length - 1) {
-                  FocusScope.of(context).requestFocus(listaFocus[index + 1]);
-                } else {
-                  FocusScope.of(context).unfocus();
-                }
-              },
-              onChanged: (texto) {},
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

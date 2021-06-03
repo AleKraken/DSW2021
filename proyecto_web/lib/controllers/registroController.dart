@@ -1,0 +1,3 @@
+class RegistroController {
+  const RegistroController();
+}

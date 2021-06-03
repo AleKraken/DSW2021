@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:http/http.dart' as http;
 import 'package:proyecto_web/api/api.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:proyecto_web/models/usuario.dart';
+import 'package:proyecto_web/sharedPreferences/SPHelper.dart';
 
 class LoginController {
   const LoginController();
@@ -14,23 +14,27 @@ class LoginController {
     };
 
     var res = await CallApi().postData(data, 'login');
-    print("RESPUESTA ${res.body}");
-    return Future.value(false);
 
-    //var body = json.decode(res.body);
+    var body = await json.decode(res.body);
 
-    /*
-    if (body['success']) {
-      SharedPreferences localStorage = await SharedPreferences.getInstance();
-      localStorage.setString('token', body['token']);
-      localStorage.setString('user', json.encode(body['user']));
-      print("SÍ SE PUDO");
-      return Future.value(true);
-    } else {
-      print("NO SE PUDO");
+    await Future.delayed(Duration(milliseconds: 90));
+
+    if (res.statusCode >= 400) {
       return Future.value(false);
+    } else {
+      SPHelper.setString('token', body['token']);
+      return Future.value(true);
     }
+  }
 
-    */
+  static Future<Usuario> getInfoPersonal() async {
+    var res = await CallApi().getData('getInfoPersonal');
+
+    Map<String, dynamic> usuarioMap = await jsonDecode(res.body);
+    Usuario usuario = Usuario.fromJson(usuarioMap);
+
+    print(usuario.nombre);
+
+    return Future.value(usuario);
   }
 }

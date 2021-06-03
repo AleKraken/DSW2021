@@ -4,6 +4,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:provider/provider.dart';
 import 'package:proyecto_web/controllers/loginController.dart';
 import 'package:proyecto_web/controllers/menuController.dart';
+import 'package:proyecto_web/models/usuario.dart';
 import 'package:proyecto_web/screens/components/registroScreen1.dart';
 import 'package:proyecto_web/screens/main/mainScreen.dart';
 
@@ -29,6 +30,8 @@ class _LoginScreenState extends State<LoginScreen> {
       listaFocus.add(new FocusNode());
     }
   }
+
+  double alturaAdvertencia = 0.0;
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               .headline1
                               .copyWith(color: Color(0xFF333333)),
                         ),
-                        Container(height: 50),
+                        Container(height: 30),
                         Container(
                           width: 400,
                           alignment: Alignment.center,
@@ -99,6 +102,16 @@ class _LoginScreenState extends State<LoginScreen> {
                               'Contraseña', '', true, 0, MdiIcons.account),
                         ),
                         Container(height: 20),
+                        AnimatedContainer(
+                          curve: Curves.ease,
+                          duration: Duration(milliseconds: 500),
+                          height: alturaAdvertencia,
+                          child: Text(
+                            'Las credenciales son incorrectas',
+                            style: TextStyle(color: Colors.red),
+                          ),
+                        ),
+                        Container(height: 25),
                         Container(
                           width: 300,
                           margin: EdgeInsets.all(5),
@@ -109,16 +122,40 @@ class _LoginScreenState extends State<LoginScreen> {
                                   .withOpacity(.15),
                             ),
                             child: validando
-                                ? CircularProgressIndicator()
+                                ? Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        height: 10,
+                                        width: 10,
+                                        child: CircularProgressIndicator(),
+                                      ),
+                                      Container(width: 15),
+                                      Text('Verificando')
+                                    ],
+                                  )
                                 : Text('Iniciar'),
                             onPressed: () async {
                               //VALIDAR LAS CREDENCIALES
                               if (!validando) {
-                                validando = true;
+                                if (this.mounted) {
+                                  setState(() {
+                                    validando = true;
+                                  });
+                                }
                                 if (await LoginController.validarCredenciales(
                                   listaControladores[0].text,
                                   listaControladores[1].text,
-                                )) {
+                                ).then((credencialesValidas) {
+                                  if (this.mounted) {
+                                    setState(() {
+                                      validando = credencialesValidas;
+                                    });
+                                  }
+                                  return credencialesValidas;
+                                })) {
+                                  Usuario usuario =
+                                      await LoginController.getInfoPersonal();
                                   Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
@@ -129,17 +166,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                                 MenuController(),
                                           ),
                                         ],
-                                        child: MainScreen(0),
+                                        child: MainScreen(0, usuario),
                                       ),
                                     ),
                                   );
+                                } else {
+                                  mostrarAdvertencia();
                                 }
-                                {}
-                                validando = false;
                               }
-                              /*
-                             
-                              */
                             },
                           ),
                         ),
@@ -178,6 +212,20 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  mostrarAdvertencia() async {
+    if (this.mounted) {
+      setState(() {
+        alturaAdvertencia = 24;
+      });
+    }
+    await Future.delayed(Duration(seconds: 3));
+    if (this.mounted) {
+      setState(() {
+        alturaAdvertencia = 0;
+      });
+    }
   }
 
   Widget textField(
