@@ -1,10 +1,7 @@
 import 'dart:convert';
 
 import 'package:proyecto_web/api/api.dart';
-import 'package:proyecto_web/controllers/registroController.dart';
-import 'package:proyecto_web/models/usuario.dart';
 import 'package:proyecto_web/sharedPreferences/SPHelper.dart';
-import 'package:image_picker/image_picker.dart';
 
 class LoginController {
   const LoginController();
@@ -25,16 +22,5 @@ class LoginController {
       SPHelper.setString('token', body['token']);
       return Future.value(true);
     }
-  }
-
-  static Future<Usuario> getInfoPersonal() async {
-    var res = await CallApi().getData('getInfoPersonal');
-
-    Map<String, dynamic> usuarioMap = await jsonDecode(res.body);
-    Usuario usuario = Usuario.fromJson(usuarioMap);
-
-    print(usuario.nombre);
-
-    return Future.value(usuario);
   }
 }

@@ -2,8 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:proyecto_web/api/api.dart';
-import 'package:proyecto_web/models/genero.dart';
-import 'package:proyecto_web/models/pais.dart';
 import 'package:proyecto_web/models/usuario.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
@@ -61,24 +59,5 @@ class RegistroController {
       print(response.statusCode);
     });
     return Future.value(true);
-  }
-
-  static Future<List<Pais>> getPaises() async {
-    var res = await CallApi().getData('getListaPais');
-
-    Iterable iterable = json.decode(res.body);
-    List<Pais> paises =
-        List<Pais>.from(iterable.map((model) => Pais.fromJson(model)));
-    return Future.value(paises);
-  }
-
-  static Future<List<Genero>> getGeneros() async {
-    var res = await CallApi().getData('getListaGenero');
-
-    Iterable iterable = json.decode(res.body);
-    List<Genero> generos =
-        List<Genero>.from(iterable.map((model) => Genero.fromJson(model)));
-
-    return Future.value(generos);
   }
 }

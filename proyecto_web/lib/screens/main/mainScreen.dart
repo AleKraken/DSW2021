@@ -39,7 +39,7 @@ class _MainScreenState extends State<MainScreen> {
     pageController = new PageController(initialPage: pantallaInicio);
     paginaSeleccionada = pantallaInicio;
     paginas = [
-      InicioScreen(),
+      InicioScreen(usuario),
       InteresesScreen(),
       ChatsScreen(),
       ConfiguracionScreen(),

@@ -4,7 +4,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:provider/provider.dart';
 import 'package:proyecto_web/controllers/loginController.dart';
 import 'package:proyecto_web/controllers/menuController.dart';
-import 'package:proyecto_web/controllers/registroController.dart';
+import 'package:proyecto_web/controllers/usuarioController.dart';
 import 'package:proyecto_web/models/usuario.dart';
 import 'package:proyecto_web/screens/components/registroScreen1.dart';
 import 'package:proyecto_web/screens/main/mainScreen.dart';
@@ -156,7 +156,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   return credencialesValidas;
                                 })) {
                                   Usuario usuario =
-                                      await LoginController.getInfoPersonal();
+                                      await UsuarioController.getInfoPersonal();
 
                                   Navigator.pushReplacement(
                                     context,

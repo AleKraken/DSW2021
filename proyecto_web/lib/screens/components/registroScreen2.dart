@@ -5,6 +5,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:provider/provider.dart';
 import 'package:proyecto_web/controllers/menuController.dart';
 import 'package:proyecto_web/controllers/registroController.dart';
+import 'package:proyecto_web/controllers/usuarioController.dart';
 import 'package:proyecto_web/models/genero.dart';
 import 'package:proyecto_web/models/pais.dart';
 import 'package:proyecto_web/models/usuario.dart';
@@ -55,8 +56,8 @@ class _RegistroScreen2State extends State<RegistroScreen2> {
     List<Pais> paises = <Pais>[];
     List<Genero> generos = <Genero>[];
 
-    paises = await RegistroController.getPaises();
-    generos = await RegistroController.getGeneros();
+    paises = await UsuarioController.getPaises();
+    generos = await UsuarioController.getGeneros();
 
     for (int i = 0; i < paises.length; i++) {
       listaPaises.add(paises[i].nomPais);

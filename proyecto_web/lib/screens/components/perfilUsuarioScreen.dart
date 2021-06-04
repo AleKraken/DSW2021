@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:proyecto_web/controllers/editUserController.dart';
 import 'package:proyecto_web/controllers/registroController.dart';
+import 'package:proyecto_web/controllers/usuarioController.dart';
 import 'package:proyecto_web/models/genero.dart';
 import 'package:proyecto_web/models/pais.dart';
 import 'package:proyecto_web/models/usuario.dart';
@@ -41,8 +42,8 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
   }
 
   Future getInformacionUsuario() async {
-    paises = await RegistroController.getPaises();
-    generos = await RegistroController.getGeneros();
+    paises = await UsuarioController.getPaises();
+    generos = await UsuarioController.getGeneros();
 
     paises.forEach((element) {
       if (element.id == int.parse(usuario.idPais)) {
