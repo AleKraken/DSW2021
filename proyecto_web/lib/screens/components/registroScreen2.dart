@@ -1,6 +1,3 @@
-import 'dart:io';
-import 'dart:typed_data';
-
 import 'package:age_calculator/age_calculator.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
@@ -13,9 +10,7 @@ import 'package:proyecto_web/models/pais.dart';
 import 'package:proyecto_web/models/usuario.dart';
 import 'package:proyecto_web/screens/components/loginScreen.dart';
 import 'package:proyecto_web/screens/components/registroScreen1.dart';
-import 'package:awesome_dropdown/awesome_dropdown.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:dropdown_date_picker/dropdown_date_picker.dart';
 
 class RegistroScreen2 extends StatefulWidget {
@@ -330,16 +325,14 @@ class _RegistroScreen2State extends State<RegistroScreen2> {
                                           email,
                                           password,
                                           listaControladores[0].text,
-                                          paisSeleccionado.toString(),
+                                          (paisSeleccionado + 1).toString(),
                                           edad.toString(),
-                                          generoSeleccionado.toString(),
+                                          (generoSeleccionado + 1).toString(),
                                           listaControladores[1].text,
                                         );
 
                                         await RegistroController
                                             .registrarUsuario(usuario);
-
-                                        //await RegistroController.subirFoto(archivo);
 
                                         Navigator.pushReplacement(
                                           context,

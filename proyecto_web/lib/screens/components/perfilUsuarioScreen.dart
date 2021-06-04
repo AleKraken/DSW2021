@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:provider/provider.dart';
+import 'package:proyecto_web/controllers/editUserController.dart';
 import 'package:proyecto_web/controllers/registroController.dart';
+import 'package:proyecto_web/models/genero.dart';
+import 'package:proyecto_web/models/pais.dart';
 import 'package:proyecto_web/models/usuario.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -23,11 +25,40 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
 
   bool validando = false;
 
+  Future _futureInformacion;
+  List<Pais> paises = <Pais>[];
+  List<Genero> generos = <Genero>[];
+
+  String pais = '';
+  String genero = '';
+
   @override
   void initState() {
     super.initState();
     listaControladores.add(new TextEditingController(text: usuario.info));
     listaFocus.add(new FocusNode());
+    _futureInformacion = getInformacionUsuario();
+  }
+
+  Future getInformacionUsuario() async {
+    paises = await RegistroController.getPaises();
+    generos = await RegistroController.getGeneros();
+
+    paises.forEach((element) {
+      if (element.id == int.parse(usuario.idPais)) {
+        pais = element.nomPais;
+        return;
+      }
+      Future.delayed(Duration.zero);
+    });
+    generos.forEach((element) {
+      if (element.id == int.parse(usuario.idGenero)) {
+        genero = element.nomGenero;
+
+        return;
+      }
+      Future.delayed(Duration.zero);
+    });
   }
 
   /*
@@ -45,129 +76,169 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: GestureDetector(
-        onTap: () {
-          FocusScope.of(context).requestFocus(new FocusNode());
-        },
-        child: Container(
-          alignment: Alignment.center,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Container(height: 20),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).cardColor,
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                        blurRadius: 10,
-                        color: Theme.of(context).shadowColor,
-                        offset: Offset(0, 3),
-                        spreadRadius: 0,
-                      ),
-                    ],
-                  ),
-                  padding: EdgeInsets.symmetric(vertical: 20, horizontal: 7),
-                  width: MediaQuery.of(context).size.width - 80,
-                  constraints: BoxConstraints(
-                    maxWidth: 700,
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      TextButton(
-                        style: TextButton.styleFrom(
-                          padding: EdgeInsets.zero,
-                        ),
-                        onPressed: () async {
-                          final ImagePicker _picker = ImagePicker();
-                          PickedFile _archivo = await _picker.getImage(
-                            source: ImageSource.gallery,
-                            imageQuality: 50,
-                            maxHeight: 500.0,
-                            maxWidth: 500.0,
-                          );
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: FutureBuilder(
+          future: _futureInformacion,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            } else {
+              return Container(
+                child: GestureDetector(
+                  onTap: () {
+                    FocusScope.of(context).requestFocus(new FocusNode());
+                  },
+                  child: Container(
+                    alignment: Alignment.center,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Container(height: 20),
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).cardColor,
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                  blurRadius: 10,
+                                  color: Theme.of(context).shadowColor,
+                                  offset: Offset(0, 3),
+                                  spreadRadius: 0,
+                                ),
+                              ],
+                            ),
+                            padding: EdgeInsets.symmetric(
+                                vertical: 20, horizontal: 7),
+                            width: MediaQuery.of(context).size.width - 80,
+                            constraints: BoxConstraints(
+                              maxWidth: 700,
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                TextButton(
+                                  style: TextButton.styleFrom(
+                                    padding: EdgeInsets.zero,
+                                  ),
+                                  onPressed: () async {
+                                    final ImagePicker _picker = ImagePicker();
+                                    PickedFile _archivo =
+                                        await _picker.getImage(
+                                      source: ImageSource.gallery,
+                                      imageQuality: 50,
+                                      maxHeight: 500.0,
+                                      maxWidth: 500.0,
+                                    );
 
-                          await RegistroController.subirFoto(_archivo);
-                        },
-                        child: Container(
-                          height: 105,
-                          width: 105,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: NetworkImage(
-                                  "https://www.peterbe.com/avatar.1.png"),
+                                    await RegistroController.subirFoto(
+                                        _archivo);
+                                  },
+                                  child: Container(
+                                    height: 105,
+                                    width: 105,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image: NetworkImage(
+                                            "https://www.peterbe.com/avatar.1.png"),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Container(height: 10),
+                                Text(
+                                  '${usuario.nombre}',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline2
+                                      .copyWith(color: Color(0xFF333333)),
+                                ),
+                                Container(height: 50),
+                                Container(
+                                  width: 400,
+                                  alignment: Alignment.center,
+                                  child: textField(
+                                      listaControladores[0],
+                                      0,
+                                      context,
+                                      '',
+                                      'Info',
+                                      false,
+                                      0,
+                                      MdiIcons.account),
+                                ),
+                                Container(height: 20),
+                                Text('Correo: ${usuario.email}',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline4
+                                        .copyWith(fontWeight: FontWeight.bold)),
+                                Container(height: 20),
+                                Text('País: $pais',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline4
+                                        .copyWith(fontWeight: FontWeight.bold)),
+                                Container(height: 20),
+                                Text(
+                                  'Edad: ${usuario.edad}',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline4
+                                      .copyWith(fontWeight: FontWeight.bold),
+                                ),
+                                Container(height: 20),
+                                Text(
+                                  'Género: $genero',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline4
+                                      .copyWith(fontWeight: FontWeight.bold),
+                                ),
+                                Container(height: 20),
+                                Container(
+                                  width: 300,
+                                  child: TextButton(
+                                    style: TextButton.styleFrom(
+                                      backgroundColor: Theme.of(context)
+                                          .primaryColor
+                                          .withOpacity(.15),
+                                    ),
+                                    onPressed: () async {
+                                      await EditUserController.editarUsuario(
+                                              listaControladores[0].text)
+                                          .then((value) {
+                                        setState(() {
+                                          usuario.info =
+                                              listaControladores[0].text;
+                                        });
+                                        value
+                                            ? ScaffoldMessenger.of(context)
+                                                .showSnackBar(SnackBar(
+                                                    content: Text(
+                                                        'Cambios guardados')))
+                                            : ScaffoldMessenger.of(context)
+                                                .showSnackBar(SnackBar(
+                                                    content: Text(
+                                                        'No se guardaron los cambios')));
+                                      });
+                                    },
+                                    child: Text('Guardar cambios'),
+                                  ),
+                                ),
+                                Container(height: 15),
+                              ],
                             ),
                           ),
-                        ),
+                          Container(height: 20),
+                        ],
                       ),
-                      Container(height: 10),
-                      Text(
-                        '${usuario.nombre}',
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline2
-                            .copyWith(color: Color(0xFF333333)),
-                      ),
-                      Container(height: 50),
-                      Container(
-                        width: 400,
-                        alignment: Alignment.center,
-                        child: textField(listaControladores[0], 0, context, '',
-                            'Info', false, 0, MdiIcons.account),
-                      ),
-                      Container(height: 20),
-                      Text('Correo: ${usuario.email}',
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline4
-                              .copyWith(fontWeight: FontWeight.bold)),
-                      Container(height: 20),
-                      Text('País: ${usuario.idPais}',
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline4
-                              .copyWith(fontWeight: FontWeight.bold)),
-                      Container(height: 20),
-                      Text(
-                        'Edad: ${usuario.edad}',
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline4
-                            .copyWith(fontWeight: FontWeight.bold),
-                      ),
-                      Container(height: 20),
-                      Text(
-                        'Género: ${usuario.idGenero}',
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline4
-                            .copyWith(fontWeight: FontWeight.bold),
-                      ),
-                      Container(height: 20),
-                      Container(
-                        width: 300,
-                        child: TextButton(
-                          style: TextButton.styleFrom(
-                            backgroundColor:
-                                Theme.of(context).primaryColor.withOpacity(.15),
-                          ),
-                          onPressed: () {},
-                          child: Text('Guardar cambios'),
-                        ),
-                      ),
-                      Container(height: 15),
-                    ],
+                    ),
                   ),
                 ),
-                Container(height: 20),
-              ],
-            ),
-          ),
-        ),
-      ),
+              );
+            }
+          }),
     );
   }
 
