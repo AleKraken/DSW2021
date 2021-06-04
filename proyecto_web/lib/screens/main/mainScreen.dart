@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:proyecto_web/controllers/menuController.dart';
 import 'package:proyecto_web/models/usuario.dart';
-import 'package:proyecto_web/screens/components/chatsScreen.dart';
-import 'package:proyecto_web/screens/components/configuracionScreen.dart';
-import 'package:proyecto_web/screens/components/inicioScreen.dart';
-import 'package:proyecto_web/screens/components/interesesScreen.dart';
-import 'package:proyecto_web/screens/components/loginScreen.dart';
-import 'package:proyecto_web/screens/components/perfilUsuarioScreen.dart';
-import 'package:proyecto_web/screens/components/vistaUsuarioScreen.dart';
+import 'package:proyecto_web/screens/chatsScreen.dart';
+import 'package:proyecto_web/screens/configuracionScreen.dart';
+import 'package:proyecto_web/screens/inicioScreen.dart';
+import 'package:proyecto_web/screens/interesesScreen.dart';
+import 'package:proyecto_web/screens/loginScreen.dart';
+import 'package:proyecto_web/screens/perfilUsuarioScreen.dart';
+import 'package:proyecto_web/screens/vistaUsuarioScreen.dart';
 import 'package:proyecto_web/screens/main/components/sideMenuTile.dart';
 import 'package:proyecto_web/responsive.dart';
 import 'package:provider/provider.dart';
@@ -44,7 +44,7 @@ class _MainScreenState extends State<MainScreen> {
       ChatsScreen(),
       ConfiguracionScreen(),
       PerfilUsuario(usuario),
-      VistaUsuario(),
+      VistaUsuario(usuario, usuario.idPais, usuario.idGenero),
     ];
     super.initState();
   }
@@ -129,7 +129,7 @@ class _MainScreenState extends State<MainScreen> {
                     image: DecorationImage(
                       fit: BoxFit.cover,
                       image: NetworkImage(
-                          "https://cdn4.iconfinder.com/data/icons/business-square-gradient-shadow-2/512/xxx012-512.png"),
+                          "https://www.peterbe.com/avatar.${usuario.id}.png"),
                     ),
                   ),
                 ),

@@ -38,13 +38,19 @@ class UsuarioController {
   }
 
   static Future<Usuario> getInfoPersonal() async {
+    print("OBTENIENDO INFO");
     var res = await CallApi().getData('getInfoPersonal');
+    print("INFO OBTENIDA ${res.body}");
 
     Map<String, dynamic> usuarioMap = await jsonDecode(res.body);
     Usuario usuario = Usuario.fromJson(usuarioMap);
 
-    print(usuario.nombre);
-
-    return Future.value(usuario);
+    if (res.statusCode >= 400) {
+      print("ERROR ${res.statusCode}");
+      return Future.value(usuario);
+    } else {
+      print("LOGRADO");
+      return Future.value(usuario);
+    }
   }
 }

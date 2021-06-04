@@ -6,7 +6,7 @@ import 'package:proyecto_web/controllers/loginController.dart';
 import 'package:proyecto_web/controllers/menuController.dart';
 import 'package:proyecto_web/controllers/usuarioController.dart';
 import 'package:proyecto_web/models/usuario.dart';
-import 'package:proyecto_web/screens/components/registroScreen1.dart';
+import 'package:proyecto_web/screens/registroScreen1.dart';
 import 'package:proyecto_web/screens/main/mainScreen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -94,7 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           width: 400,
                           alignment: Alignment.center,
                           child: textField(listaControladores[0], 0, context,
-                              'Usuario', '', false, 0, MdiIcons.account),
+                              'Correo', '', false, 0, MdiIcons.account),
                         ),
                         Container(
                           width: 400,

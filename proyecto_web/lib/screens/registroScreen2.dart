@@ -9,8 +9,8 @@ import 'package:proyecto_web/controllers/usuarioController.dart';
 import 'package:proyecto_web/models/genero.dart';
 import 'package:proyecto_web/models/pais.dart';
 import 'package:proyecto_web/models/usuario.dart';
-import 'package:proyecto_web/screens/components/loginScreen.dart';
-import 'package:proyecto_web/screens/components/registroScreen1.dart';
+import 'package:proyecto_web/screens/loginScreen.dart';
+import 'package:proyecto_web/screens/registroScreen1.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:dropdown_date_picker/dropdown_date_picker.dart';
 
@@ -38,6 +38,9 @@ class _RegistroScreen2State extends State<RegistroScreen2> {
 
   List<String> listaPaises = <String>[];
   List<String> listaGeneros = <String>[];
+  int paisSeleccionado = 0;
+  int generoSeleccionado = 0;
+  bool registrando = false;
 
   @override
   void initState() {
@@ -48,9 +51,6 @@ class _RegistroScreen2State extends State<RegistroScreen2> {
       listaFocus.add(new FocusNode());
     }
   }
-
-  int paisSeleccionado = 0;
-  int generoSeleccionado = 0;
 
   Future llenarListas() async {
     List<Pais> paises = <Pais>[];
@@ -311,44 +311,74 @@ class _RegistroScreen2State extends State<RegistroScreen2> {
                                             .primaryColor
                                             .withOpacity(.15),
                                       ),
-                                      child: Text('Registrarse'),
-                                      onPressed: () async {
-                                        DateTime birthday = DateTime(
-                                            dropdownDatePicker.year,
-                                            dropdownDatePicker.month,
-                                            dropdownDatePicker.day);
-
-                                        DateDuration dateDuration =
-                                            AgeCalculator.age(birthday);
-                                        int edad = dateDuration.years;
-
-                                        Usuario usuario = new Usuario(
-                                          email,
-                                          password,
-                                          listaControladores[0].text,
-                                          (paisSeleccionado + 1).toString(),
-                                          edad.toString(),
-                                          (generoSeleccionado + 1).toString(),
-                                          listaControladores[1].text,
-                                        );
-
-                                        await RegistroController
-                                            .registrarUsuario(usuario);
-
-                                        Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => MultiProvider(
-                                              providers: [
-                                                ChangeNotifierProvider(
-                                                  create: (context) =>
-                                                      MenuController(),
+                                      child: registrando
+                                          ? Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Container(
+                                                  height: 10,
+                                                  width: 10,
+                                                  child:
+                                                      CircularProgressIndicator(),
                                                 ),
+                                                Container(width: 15),
+                                                Text('Registrando'),
                                               ],
-                                              child: LoginScreen(),
+                                            )
+                                          : Text('Registrarse'),
+                                      onPressed: () async {
+                                        if (!registrando) {
+                                          if (this.mounted) {
+                                            setState(() {
+                                              registrando = true;
+                                            });
+                                          }
+                                          DateTime birthday = DateTime(
+                                              dropdownDatePicker.year,
+                                              dropdownDatePicker.month,
+                                              dropdownDatePicker.day);
+
+                                          DateDuration dateDuration =
+                                              AgeCalculator.age(birthday);
+                                          int edad = dateDuration.years;
+
+                                          Usuario usuario = new Usuario(
+                                            email,
+                                            password,
+                                            listaControladores[0].text,
+                                            (paisSeleccionado + 1).toString(),
+                                            edad.toString(),
+                                            (generoSeleccionado + 1).toString(),
+                                            listaControladores[1].text,
+                                          );
+
+                                          await RegistroController
+                                                  .registrarUsuario(usuario)
+                                              .then((usuarioRegistrado) {
+                                            if (this.mounted) {
+                                              setState(() {
+                                                registrando = usuarioRegistrado;
+                                              });
+                                            }
+                                          });
+
+                                          Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  MultiProvider(
+                                                providers: [
+                                                  ChangeNotifierProvider(
+                                                    create: (context) =>
+                                                        MenuController(),
+                                                  ),
+                                                ],
+                                                child: LoginScreen(),
+                                              ),
                                             ),
-                                          ),
-                                        );
+                                          );
+                                        }
                                       },
                                     ),
                                   ),

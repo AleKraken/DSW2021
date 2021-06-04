@@ -1,9 +1,10 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:proyecto_web/controllers/usuarioController.dart';
 import 'package:proyecto_web/models/genero.dart';
 import 'package:proyecto_web/models/pais.dart';
 import 'package:proyecto_web/models/usuario.dart';
-import 'package:proyecto_web/screens/components/vistaUsuarioScreen.dart';
+import 'package:proyecto_web/screens/vistaUsuarioScreen.dart';
 
 class InicioScreen extends StatefulWidget {
   final Usuario usuarioActual;
@@ -129,89 +130,96 @@ class _InicioScreenState extends State<InicioScreen> {
   }
 
   Widget cardPersona(int index) {
-    return TextButton(
-      onPressed: () {
-        mostrarVistaUsuario(context);
-      },
-      child: Container(
-        padding: EdgeInsets.symmetric(vertical: 15),
-        margin: EdgeInsets.only(bottom: 60),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          boxShadow: [
-            BoxShadow(
-              blurRadius: 7,
-              color: Theme.of(context).shadowColor,
-              offset: Offset(0, 3),
-              spreadRadius: -2,
-            ),
-          ],
-          color: Theme.of(context).primaryColorLight,
-        ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              height: 125,
-              width: 125,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image:
-                      NetworkImage("https://www.peterbe.com/avatar.$index.png"),
+    return FadeIn(
+      duration: Duration(milliseconds: 200),
+      child: SlideInUp(
+        from: 20,
+        duration: Duration(milliseconds: 200),
+        child: TextButton(
+          onPressed: () {
+            mostrarVistaUsuario(context, index);
+          },
+          child: Container(
+            padding: EdgeInsets.symmetric(vertical: 15),
+            margin: EdgeInsets.only(bottom: 60),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                  blurRadius: 7,
+                  color: Theme.of(context).shadowColor,
+                  offset: Offset(0, 3),
+                  spreadRadius: -2,
                 ),
-              ),
+              ],
+              color: Theme.of(context).primaryColorLight,
             ),
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      '${usuarios[index].nombre}',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline4
-                          .copyWith(fontWeight: FontWeight.bold),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  height: 125,
+                  width: 125,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: NetworkImage(
+                          "https://www.peterbe.com/avatar.${usuarios[index].id}.png"),
                     ),
                   ),
-                  Container(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      '${usuarios[index].edad}',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline4
-                          .copyWith(fontWeight: FontWeight.bold),
-                    ),
+                ),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          '${usuarios[index].nombre}',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline4
+                              .copyWith(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Container(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          '${usuarios[index].edad} años',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline4
+                              .copyWith(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Container(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          '${paisUsuarios[index]}',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline4
+                              .copyWith(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ],
                   ),
-                  Container(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      '${paisUsuarios[index]}',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline4
-                          .copyWith(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
   }
 
-  mostrarVistaUsuario(BuildContext context) {
+  mostrarVistaUsuario(BuildContext context, int index) {
     showDialog(
       context: context,
       builder: (_) => new AlertDialog(
@@ -219,16 +227,16 @@ class _InicioScreenState extends State<InicioScreen> {
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(10.0))),
         content: Builder(builder: (context) {
-          // Get available height and width of the build area of this widget. Make a choice depending on the size.
-          var height = MediaQuery.of(context).size.height;
-          var width = MediaQuery.of(context).size.width;
-
           return SingleChildScrollView(
             child: Wrap(
               alignment: WrapAlignment.center,
               clipBehavior: Clip.antiAlias,
               children: [
-                VistaUsuario(),
+                VistaUsuario(
+                  usuarios[index],
+                  paisUsuarios[index],
+                  generoUsuarios[index],
+                ),
               ],
             ),
           );
