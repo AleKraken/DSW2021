@@ -35,8 +35,19 @@ class _VistaUsuarioState extends State<VistaUsuario> {
   }
 
   Future getIntereses() async {
-    List<Interes> listaIntereses =
+    List<Interes> listaIntereses = await InteresController.getIntereses();
+    List<InteresUsuario> listaInteresesUsuario =
         await InteresController.getInteresesPorUsuario(usuario.id);
+
+    listaIntereses.forEach((interes) {
+      listaInteresesUsuario.forEach((interesUsuario) {
+        if (interes.id == int.parse(interesUsuario.idInteres)) {
+          intereses.add(interes.nomInteres);
+        }
+      });
+    });
+
+    return Future.value(true);
   }
 
   @override
@@ -117,72 +128,90 @@ class _VistaUsuarioState extends State<VistaUsuario> {
                     .copyWith(color: Color(0xFF333333)),
               ),
               Container(height: 30),
-             
-                  Text(
-                    'Intereses:',
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline3
-                        .copyWith(color: Color(0xFF333333)),
-                 
+              Text(
+                'Intereses:',
+                style: Theme.of(context)
+                    .textTheme
+                    .headline3
+                    .copyWith(color: Color(0xFF333333)),
               ),
-              intereses.length > 0
-                  ? Container(
-                      height: getAlturaGrid(intereses.length),
-                      child: SingleChildScrollView(
-                        child: Wrap(
-                          children: [
-                            GridView.builder(
-                              shrinkWrap: true,
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 3),
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisSpacing: 30,
-                                mainAxisSpacing: 25,
-                                mainAxisExtent: 40,
-                                crossAxisCount: Responsive.isMobile(context)
-                                    ? 1
-                                    : Responsive.isTablet(context)
-                                        ? 2
-                                        : 3,
+              Container(height: 12),
+              FutureBuilder(
+                  future: _futureIntereses,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else {
+                      return intereses.length > 0
+                          ? Container(
+                              height: getAlturaGrid(intereses.length),
+                              child: SingleChildScrollView(
+                                child: Wrap(
+                                  children: [
+                                    GridView.builder(
+                                      shrinkWrap: true,
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 10, horizontal: 3),
+                                      gridDelegate:
+                                          SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisSpacing: 30,
+                                        mainAxisSpacing: 25,
+                                        mainAxisExtent: 40,
+                                        crossAxisCount:
+                                            Responsive.isMobile(context)
+                                                ? 1
+                                                : Responsive.isTablet(context)
+                                                    ? 2
+                                                    : 3,
+                                      ),
+                                      itemBuilder: (_, index) =>
+                                          InteresComponent(
+                                        index,
+                                        index,
+                                        intereses,
+                                        <Interes>[],
+                                        true,
+                                        true,
+                                        (bool valor) {},
+                                      ),
+                                      itemCount: intereses.length,
+                                    ),
+                                  ],
+                                ),
                               ),
-                              itemBuilder: (_, index) => InteresComponent(
-                                  intereses[index], true, true),
-                              itemCount: intereses.length,
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
-                  : Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            margin: EdgeInsets.symmetric(vertical: 12),
-                            height: 40,
-                            width: 40,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: NetworkImage(
-                                    "https://image.flaticon.com/icons/png/512/4076/4076549.png"),
+                            )
+                          : Container(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.symmetric(vertical: 12),
+                                    height: 40,
+                                    width: 40,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image: NetworkImage(
+                                            "https://image.flaticon.com/icons/png/512/4076/4076549.png"),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(width: 25),
+                                  Text(
+                                    'Parece que este usuario aún no tiene intereses',
+                                    style:
+                                        Theme.of(context).textTheme.headline4,
+                                  ),
+                                ],
                               ),
-                            ),
-                          ),
-                          Container(width: 25),
-                           Text(
-                              'Parece que este usuario aún no tiene intereses',
-                              style: Theme.of(context).textTheme.headline4,
-                            ),
-                          
-                        ],
-                      ),
-                    ),
+                            );
+                    }
+                  }),
+              Container(height: 0),
             ],
           ),
         ),
-        Container(height: 0),
       ],
     );
   }
@@ -193,10 +222,10 @@ class _VistaUsuarioState extends State<VistaUsuario> {
     if (Responsive.isTablet(context)) elementosPorLinea = 2.0;
     if (Responsive.isMobile(context)) elementosPorLinea = 1.0;
 
-    numeroElementos = numeroElementos > 2
-        ? numeroElementos ~/ elementosPorLinea
-        : numeroElementos;
+    int lineas = numeroElementos ~/ elementosPorLinea;
 
-    return 64.0 * numeroElementos;
+    lineas += (numeroElementos % elementosPorLinea == 0) ? 0 : 1;
+
+    return 64.0 * lineas;
   }
 }
