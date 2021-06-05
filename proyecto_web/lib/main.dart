@@ -9,7 +9,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 void main() {
   SharedPreferences.getInstance().then((SharedPreferences sp) {
     SPHelper.setPref(sp);
-    final int paginaActual = sp.getInt('paginaActual') ?? 0;
+    SPHelper.setInt('fondoEstatico', 1);
+
     runApp(MyApp());
   });
 }
@@ -28,7 +29,6 @@ class MyApp extends StatelessWidget {
           ),
         ],
         child: LoginScreen(),
-        //MainScreen(0),
       ),
     );
   }

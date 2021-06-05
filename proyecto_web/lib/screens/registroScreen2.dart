@@ -13,6 +13,7 @@ import 'package:proyecto_web/screens/loginScreen.dart';
 import 'package:proyecto_web/screens/registroScreen1.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:dropdown_date_picker/dropdown_date_picker.dart';
+import 'package:proyecto_web/sharedPreferences/SPHelper.dart';
 
 class RegistroScreen2 extends StatefulWidget {
   final String email;
@@ -93,13 +94,17 @@ class _RegistroScreen2State extends State<RegistroScreen2> {
           ),
           height: MediaQuery.of(context).size.height,
           padding: EdgeInsets.all(30),
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              fit: BoxFit.cover,
-              image: NetworkImage(
-                  "https://russo.xyz/beta/wp-content/uploads/2019/07/grad.gif"),
-            ),
-          ),
+          decoration: SPHelper.getInt('fondoEstatico') == 0
+              ? BoxDecoration(
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: NetworkImage(
+                        "https://russo.xyz/beta/wp-content/uploads/2019/07/grad.gif"),
+                  ),
+                )
+              : BoxDecoration(
+                  color: Theme.of(context).primaryColor,
+                ),
           child: FutureBuilder(
               future: _futureListaPaises,
               builder: (context, snapshot) {

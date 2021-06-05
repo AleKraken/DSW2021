@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:proyecto_web/controllers/menuController.dart';
 import 'package:proyecto_web/screens/loginScreen.dart';
 import 'package:proyecto_web/screens/registroScreen2.dart';
+import 'package:proyecto_web/sharedPreferences/SPHelper.dart';
 
 class RegistroScreen extends StatefulWidget {
   RegistroScreen({Key key}) : super(key: key);
@@ -40,13 +41,17 @@ class _RegistroScreenState extends State<RegistroScreen> {
             ),
             height: MediaQuery.of(context).size.height,
             padding: EdgeInsets.all(30),
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: NetworkImage(
-                    "https://russo.xyz/beta/wp-content/uploads/2019/07/grad.gif"),
-              ),
-            ),
+            decoration: SPHelper.getInt('fondoEstatico') == 0
+                ? BoxDecoration(
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: NetworkImage(
+                          "https://russo.xyz/beta/wp-content/uploads/2019/07/grad.gif"),
+                    ),
+                  )
+                : BoxDecoration(
+                    color: Theme.of(context).primaryColor,
+                  ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
