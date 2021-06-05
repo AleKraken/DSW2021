@@ -1,21 +1,19 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CallApi {
-  final String _url = 'http://192.168.100.29:8000/';
+  final String _url = 'http://192.168.100.29:8000/api/';
 
   postData(data, apiUrl) async {
-    var fullUrl = _url + apiUrl + await _getToken();
+    var fullUrl = _url + apiUrl;
     return await http.post(
       Uri.parse(fullUrl),
       body: jsonEncode(data),
       headers: {
-        "Access-Control-Allow-Origin": "*", // Required for CORS support to work
-        "Access-Control-Allow-Headers":
-            "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale",
-        "Access-Control-Allow-Methods": "POST, OPTIONS"
+        HttpHeaders.contentTypeHeader: "application/json", HttpHeaders.authorizationHeader: await _getToken()
       },
     );
   }
