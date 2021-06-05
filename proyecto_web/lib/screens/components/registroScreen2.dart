@@ -1,25 +1,42 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:proyecto_web/controllers/menuController.dart';
+import 'package:proyecto_web/controllers/registroController.dart';
+import 'package:proyecto_web/models/usuario.dart';
 import 'package:proyecto_web/screens/components/loginScreen.dart';
 import 'package:proyecto_web/screens/components/registroScreen1.dart';
-import 'package:proyecto_web/screens/main/mainScreen.dart';
+import 'package:flutter_web_image_picker/flutter_web_image_picker.dart';
+import 'package:image_picker/image_picker.dart';
 
 class RegistroScreen2 extends StatefulWidget {
+  final String email;
+  final String password;
+
+  RegistroScreen2(this.email, this.password);
+
   @override
-  _RegistroScreen2State createState() => _RegistroScreen2State();
+  _RegistroScreen2State createState() => _RegistroScreen2State(email, password);
 }
 
 class _RegistroScreen2State extends State<RegistroScreen2> {
+  final String email;
+  final String password;
+
+  _RegistroScreen2State(this.email, this.password);
+
   final List<TextEditingController> listaControladores =
       <TextEditingController>[];
   final List<FocusNode> listaFocus = <FocusNode>[];
+  File imageFile;
 
   @override
   void initState() {
     super.initState();
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 5; i++) {
       listaControladores.add(new TextEditingController());
       listaFocus.add(new FocusNode());
     }
@@ -122,26 +139,47 @@ class _RegistroScreen2State extends State<RegistroScreen2> {
                           width: 400,
                           alignment: Alignment.center,
                           child: textField(listaControladores[1], 1, context,
-                              'Apellido', '', false, 0, MdiIcons.account),
-                        ),
-                        Container(
-                          width: 400,
-                          alignment: Alignment.center,
-                          child: textField(listaControladores[1], 1, context,
                               'País', '', false, 0, MdiIcons.flag),
                         ),
                         Container(
                           width: 400,
                           alignment: Alignment.center,
                           child: textField(
-                            listaControladores[1],
-                            1,
+                            listaControladores[2],
+                            2,
                             context,
                             'Edad',
                             '',
                             false,
                             0,
                             MdiIcons.cakeVariant,
+                          ),
+                        ),
+                        Container(
+                          width: 400,
+                          alignment: Alignment.center,
+                          child: textField(listaControladores[3], 3, context,
+                              'Género', '', false, 0, MdiIcons.flag),
+                        ),
+                        Container(
+                          width: 400,
+                          alignment: Alignment.center,
+                          child: textField(listaControladores[4], 4, context,
+                              'Info', '', false, 0, MdiIcons.flag),
+                        ),
+                        Container(
+                          width: 300,
+                          margin: EdgeInsets.all(5),
+                          child: TextButton(
+                            style: TextButton.styleFrom(
+                              backgroundColor: Theme.of(context)
+                                  .primaryColor
+                                  .withOpacity(.15),
+                            ),
+                            child: Text('Seleccionar imagen'),
+                            onPressed: () async {
+                              imageFile = await seleccionarImagen(context);
+                            },
                           ),
                         ),
                         Container(height: 20),
@@ -155,7 +193,20 @@ class _RegistroScreen2State extends State<RegistroScreen2> {
                                   .withOpacity(.15),
                             ),
                             child: Text('Registrarse'),
-                            onPressed: () {
+                            onPressed: () async {
+                              Usuario usuario = new Usuario(
+                                email,
+                                password,
+                                listaControladores[0].text,
+                                listaControladores[1].text,
+                                listaControladores[2].text,
+                                listaControladores[3].text,
+                                listaControladores[4].text,
+                              );
+
+                              await RegistroController.registrarUsuario(
+                                  usuario);
+
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
@@ -183,6 +234,12 @@ class _RegistroScreen2State extends State<RegistroScreen2> {
         ),
       ),
     );
+  }
+
+  Future<File> seleccionarImagen(context) async {
+    final ImagePicker _picker = ImagePicker();
+    PickedFile _archivo = await _picker.getImage(source: ImageSource.gallery);
+    return Future.value(File(_archivo.path));
   }
 
   Widget textField(

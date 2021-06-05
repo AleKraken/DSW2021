@@ -1,6 +1,7 @@
 class Usuario {
   int id;
   String email;
+  String password;
   String nombre;
   String idPais;
   String edad;
@@ -10,17 +11,8 @@ class Usuario {
   String createdAt;
   String updatedAt;
 
-  Usuario(
-      {this.id,
-      this.email,
-      this.nombre,
-      this.idPais,
-      this.edad,
-      this.idGenero,
-      this.info,
-      this.rutaFoto,
-      this.createdAt,
-      this.updatedAt});
+  Usuario(this.email, this.password, this.nombre, this.idPais, this.edad,
+      this.idGenero, this.info);
 
   Usuario.fromJson(Map<String, dynamic> json) {
     id = json['id'];

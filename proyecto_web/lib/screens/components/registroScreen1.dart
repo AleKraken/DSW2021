@@ -20,7 +20,7 @@ class _RegistroScreenState extends State<RegistroScreen> {
   @override
   void initState() {
     super.initState();
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 2; i++) {
       listaControladores.add(new TextEditingController());
       listaFocus.add(new FocusNode());
     }
@@ -116,13 +116,13 @@ class _RegistroScreenState extends State<RegistroScreen> {
                         Container(
                           width: 400,
                           alignment: Alignment.center,
-                          child: textField(listaControladores[1], 1, context,
+                          child: textField(listaControladores[0], 0, context,
                               'Correo', '', false, 0, MdiIcons.account),
                         ),
                         Container(
                           width: 400,
                           alignment: Alignment.center,
-                          child: textField(listaControladores[2], 2, context,
+                          child: textField(listaControladores[1], 1, context,
                               'Contraseña', '', true, 0, MdiIcons.account),
                         ),
                         Container(height: 20),
@@ -146,7 +146,10 @@ class _RegistroScreenState extends State<RegistroScreen> {
                                         create: (context) => MenuController(),
                                       ),
                                     ],
-                                    child: RegistroScreen2(),
+                                    child: RegistroScreen2(
+                                      listaControladores[0].text,
+                                      listaControladores[1].text,
+                                    ),
                                   ),
                                 ),
                               );

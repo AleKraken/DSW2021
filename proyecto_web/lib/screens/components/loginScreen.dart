@@ -186,7 +186,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: Text('¿No tienes una cuenta? Regístrate'),
                             onPressed: () {
                               if (!validando) {
-                                //RegistroController.registrarUsuario();
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(

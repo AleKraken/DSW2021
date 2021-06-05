@@ -31,7 +31,6 @@ class CallApi {
     );
   }
 
-  
   editarUsuario(data, apiUrl) async {
     var fullUrl = _url + apiUrl;
     return await http.put(

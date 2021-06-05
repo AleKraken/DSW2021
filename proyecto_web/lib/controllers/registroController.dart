@@ -1,17 +1,18 @@
 import 'package:proyecto_web/api/api.dart';
+import 'package:proyecto_web/models/usuario.dart';
 
 class RegistroController {
   const RegistroController();
 
-  static Future<bool> registrarUsuario(String email, String password, String nombre, int idPais, int edad, int idGenero, String info) async {
+  static Future<bool> registrarUsuario(Usuario usuario) async {
     var data = {
-      'email': email,
-      'password': password,
-      'nombre': nombre,
-      'idPais': idPais,
-      'edad': edad,
-      'idGenero': idGenero,
-      'info': info,
+      'email': usuario.email,
+      'password': usuario.password,
+      'nombre': usuario.nombre,
+      'idPais': usuario.idPais,
+      'edad': usuario.edad,
+      'idGenero': usuario.idGenero,
+      'info': usuario.info,
       'rutaFoto': null,
     };
 
