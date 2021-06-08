@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:proyecto_web/controllers/registroController.dart';
 import 'package:proyecto_web/models/usuario.dart';
+import 'package:image_picker/image_picker.dart';
 
 class PerfilUsuario extends StatefulWidget {
   final Usuario usuario;
@@ -27,6 +29,19 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
     listaControladores.add(new TextEditingController(text: usuario.info));
     listaFocus.add(new FocusNode());
   }
+
+  /*
+
+  final ImagePicker _picker = ImagePicker();
+    PickedFile _archivo = await _picker.getImage(
+      source: ImageSource.gallery,
+      imageQuality: 50,
+      maxHeight: 500.0,
+      maxWidth: 500.0,
+    );
+
+    RegistroController.subirFoto(_archivo);
+    */
 
   @override
   Widget build(BuildContext context) {
@@ -62,13 +77,29 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
-                        height: 105,
-                        width: 105,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: NetworkImage(
-                                "https://www.peterbe.com/avatar.1.png"),
+                      TextButton(
+                        style: TextButton.styleFrom(
+                          padding: EdgeInsets.zero,
+                        ),
+                        onPressed: () async {
+                          final ImagePicker _picker = ImagePicker();
+                          PickedFile _archivo = await _picker.getImage(
+                            source: ImageSource.gallery,
+                            imageQuality: 50,
+                            maxHeight: 500.0,
+                            maxWidth: 500.0,
+                          );
+
+                          await RegistroController.subirFoto(_archivo);
+                        },
+                        child: Container(
+                          height: 105,
+                          width: 105,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: NetworkImage(
+                                  "https://www.peterbe.com/avatar.1.png"),
+                            ),
                           ),
                         ),
                       ),

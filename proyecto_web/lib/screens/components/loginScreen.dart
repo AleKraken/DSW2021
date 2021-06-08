@@ -157,6 +157,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 })) {
                                   Usuario usuario =
                                       await LoginController.getInfoPersonal();
+
                                   Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(

@@ -1,8 +1,10 @@
 import 'dart:convert';
 
 import 'package:proyecto_web/api/api.dart';
+import 'package:proyecto_web/controllers/registroController.dart';
 import 'package:proyecto_web/models/usuario.dart';
 import 'package:proyecto_web/sharedPreferences/SPHelper.dart';
+import 'package:image_picker/image_picker.dart';
 
 class LoginController {
   const LoginController();
