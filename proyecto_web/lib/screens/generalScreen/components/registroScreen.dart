@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:proyecto_web/controllers/menuController.dart';
-import 'package:proyecto_web/generalScreen/components/loginScreen.dart';
-import 'package:proyecto_web/main/mainScreen.dart';
+import 'package:proyecto_web/screens/generalScreen/components/loginScreen.dart';
+import 'package:proyecto_web/screens/main/mainScreen.dart';
 
 class RegistroScreen extends StatefulWidget {
   RegistroScreen({Key key}) : super(key: key);

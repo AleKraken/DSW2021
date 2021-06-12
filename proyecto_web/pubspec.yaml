@@ -24,6 +24,8 @@ dependencies:
   material_design_icons_flutter: 4.0.5955
   provider: ^5.0.0
   google_fonts: ^2.1.0
+  http: ^0.13.3
+  shared_preferences: ^2.0.6
 
   flutter:
     sdk: flutter

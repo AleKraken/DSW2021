@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:proyecto_web/controllers/loginController.dart';
 import 'package:proyecto_web/controllers/menuController.dart';
-import 'package:proyecto_web/generalScreen/components/registroScreen.dart';
-import 'package:proyecto_web/generalScreen/generalScreen.dart';
-import 'package:proyecto_web/main/mainScreen.dart';
-import 'package:proyecto_web/utils/tema.dart';
+import 'package:proyecto_web/screens/generalScreen/components/registroScreen.dart';
+import 'package:proyecto_web/screens/main/mainScreen.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key key}) : super(key: key);
@@ -19,6 +18,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final List<TextEditingController> listaControladores =
       <TextEditingController>[];
   final List<FocusNode> listaFocus = <FocusNode>[];
+
+  bool validando = false;
 
   @override
   void initState() {
@@ -107,21 +108,38 @@ class _LoginScreenState extends State<LoginScreen> {
                                   .primaryColor
                                   .withOpacity(.15),
                             ),
-                            child: Text('Iniciar'),
-                            onPressed: () {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => MultiProvider(
-                                    providers: [
-                                      ChangeNotifierProvider(
-                                        create: (context) => MenuController(),
+                            child: validando
+                                ? CircularProgressIndicator()
+                                : Text('Iniciar'),
+                            onPressed: () async {
+                              //VALIDAR LAS CREDENCIALES
+                              if (!validando) {
+                                validando = true;
+                                if (await LoginController.validarCredenciales(
+                                  listaControladores[0].text,
+                                  listaControladores[1].text,
+                                )) {
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => MultiProvider(
+                                        providers: [
+                                          ChangeNotifierProvider(
+                                            create: (context) =>
+                                                MenuController(),
+                                          ),
+                                        ],
+                                        child: MainScreen(),
                                       ),
-                                    ],
-                                    child: MainScreen(),
-                                  ),
-                                ),
-                              );
+                                    ),
+                                  );
+                                }
+                                {}
+                                validando = false;
+                              }
+                              /*
+                             
+                              */
                             },
                           ),
                         ),
@@ -132,19 +150,21 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: TextButton(
                             child: Text('¿No tienes una cuenta? Regístrate'),
                             onPressed: () {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => MultiProvider(
-                                    providers: [
-                                      ChangeNotifierProvider(
-                                        create: (context) => MenuController(),
-                                      ),
-                                    ],
-                                    child: RegistroScreen(),
+                              if (!validando) {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => MultiProvider(
+                                      providers: [
+                                        ChangeNotifierProvider(
+                                          create: (context) => MenuController(),
+                                        ),
+                                      ],
+                                      child: RegistroScreen(),
+                                    ),
                                   ),
-                                ),
-                              );
+                                );
+                              }
                             },
                           ),
                         ),
@@ -229,3 +249,35 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
+
+
+/*
+FutureBuilder(
+      future: DatabaseProvider.db
+          .getComidasDelDia()
+          .then((listaComidas) => listaComidasDelDia = listaComidas),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Container();
+        } else {
+          for (int i = 0; i < listaComidasDelDia.length; i++) {
+            listaBotones.add(
+              Container(
+                height: 30,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(colors: [
+                    Theme.of(context).buttonColor,
+                    Color(0xFF038DB2),
+                  ]),
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      blurRadius: 6,
+                      color: Theme.of(context).shadowColor,
+                      offset: const Offset(0, 3),
+                      spreadRadius: 0,
+                    ),
+                  ],
+                ),
+                child: 
+                */

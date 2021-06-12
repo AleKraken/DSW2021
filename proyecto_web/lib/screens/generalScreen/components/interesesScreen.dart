@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:proyecto_web/generalScreen/components/interesComponent.dart';
 import 'package:proyecto_web/responsive.dart';
+import 'package:proyecto_web/screens/generalScreen/components/interesComponent.dart';
 
 class InteresesScreen extends StatefulWidget {
   InteresesScreen({Key key}) : super(key: key);

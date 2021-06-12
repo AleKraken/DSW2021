@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:proyecto_web/controllers/menuController.dart';
-import 'package:proyecto_web/generalScreen/components/loginScreen.dart';
-import 'package:proyecto_web/main/mainScreen.dart';
+import 'package:proyecto_web/screens/generalScreen/components/loginScreen.dart';
 import 'package:provider/provider.dart';
 import 'package:proyecto_web/utils/tema.dart';
 

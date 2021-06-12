@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:proyecto_web/controllers/menuController.dart';
-import 'package:proyecto_web/generalScreen/components/inicioScreen.dart';
-import 'package:proyecto_web/generalScreen/components/interesesScreen.dart';
-import 'package:proyecto_web/generalScreen/components/loginScreen.dart';
-import 'package:proyecto_web/generalScreen/generalScreen.dart';
-import 'package:proyecto_web/main/components/side_menu.dart';
+import 'package:proyecto_web/screens/generalScreen/components/inicioScreen.dart';
+import 'package:proyecto_web/screens/generalScreen/components/interesesScreen.dart';
+import 'package:proyecto_web/screens/generalScreen/components/loginScreen.dart';
+import 'package:proyecto_web/screens/main/components/side_menu.dart';
 import 'package:proyecto_web/responsive.dart';
 import 'package:provider/provider.dart';
 
