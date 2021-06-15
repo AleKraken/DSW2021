@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:proyecto_web/controllers/menuController.dart';
-import 'package:proyecto_web/generalScreen/components/inicioScreen.dart';
-import 'package:proyecto_web/generalScreen/components/interesesScreen.dart';
-import 'package:proyecto_web/generalScreen/generalScreen.dart';
-import 'package:proyecto_web/main/components/side_menu.dart';
+import 'package:proyecto_web/screens/generalScreen/components/inicioScreen.dart';
+import 'package:proyecto_web/screens/generalScreen/components/interesesScreen.dart';
+import 'package:proyecto_web/screens/generalScreen/components/loginScreen.dart';
+import 'package:proyecto_web/screens/main/components/side_menu.dart';
 import 'package:proyecto_web/responsive.dart';
 import 'package:provider/provider.dart';
 
@@ -23,11 +24,11 @@ class _MainScreenState extends State<MainScreen> {
   PageController pageController = new PageController(
     initialPage: 0,
   );
-
   int paginaSeleccionada = 0;
 
   @override
   Widget build(BuildContext context) {
+    print(paginaSeleccionada);
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       key: context.read<MenuController>().scaffoldKey,
@@ -103,11 +104,10 @@ class _MainScreenState extends State<MainScreen> {
                     height: 60,
                     width: 60,
                     decoration: BoxDecoration(
-                      color: Color(0xFF303030),
                       boxShadow: [
                         BoxShadow(
                           blurRadius: 10,
-                          color: Colors.black,
+                          color: Theme.of(context).shadowColor,
                           offset: Offset(0, 3),
                           spreadRadius: -2,
                         ),
@@ -124,26 +124,56 @@ class _MainScreenState extends State<MainScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Container(
-                          margin: EdgeInsets.only(left: 2),
-                          child: Text(
-                            'Alejandro Ortega',
-                            style: Theme.of(context).textTheme.headline4,
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
                         Row(
                           children: [
                             Expanded(
                               child: Container(
-                                margin: EdgeInsets.all(5),
+                                margin: EdgeInsets.symmetric(horizontal: 5),
                                 child: TextButton(
-                                  child: Text('Ver perfil'),
+                                  child: Text('Alejandro Ortega',
+                                      textAlign: TextAlign.center,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headline4
+                                          .copyWith(
+                                              fontWeight: FontWeight.bold)),
                                   onPressed: () {},
                                 ),
                               ),
                             ),
                           ],
+                        ),
+                        Container(height: 3),
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          margin: EdgeInsets.symmetric(horizontal: 5),
+                          child: TextButton(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text('Salir', textAlign: TextAlign.center),
+                                Container(
+                                  width: 25,
+                                  child: Icon(MdiIcons.logout, size: 18),
+                                ),
+                              ],
+                            ),
+                            onPressed: () {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => MultiProvider(
+                                    providers: [
+                                      ChangeNotifierProvider(
+                                        create: (context) => MenuController(),
+                                      ),
+                                    ],
+                                    child: LoginScreen(),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
                         )
                       ],
                     ),
