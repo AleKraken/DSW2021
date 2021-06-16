@@ -2,17 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:proyecto_web/controllers/menuController.dart';
-import 'package:proyecto_web/screens/generalScreen/components/loginScreen.dart';
+import 'package:proyecto_web/screens/components/registroScreen1.dart';
 import 'package:proyecto_web/screens/main/mainScreen.dart';
 
-class RegistroScreen extends StatefulWidget {
-  RegistroScreen({Key key}) : super(key: key);
-
+class RegistroScreen2 extends StatefulWidget {
   @override
-  _RegistroScreenState createState() => _RegistroScreenState();
+  _RegistroScreen2State createState() => _RegistroScreen2State();
 }
 
-class _RegistroScreenState extends State<RegistroScreen> {
+class _RegistroScreen2State extends State<RegistroScreen2> {
   final List<TextEditingController> listaControladores =
       <TextEditingController>[];
   final List<FocusNode> listaFocus = <FocusNode>[];
@@ -73,16 +71,42 @@ class _RegistroScreenState extends State<RegistroScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(
-                          'Registro',
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline1
-                              .copyWith(color: Color(0xFF333333)),
+                        Row(
+                          children: [
+                            IconButton(
+                              icon: Icon(MdiIcons.arrowLeft),
+                              onPressed: () {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => MultiProvider(
+                                      providers: [
+                                        ChangeNotifierProvider(
+                                          create: (context) => MenuController(),
+                                        ),
+                                      ],
+                                      child: RegistroScreen(),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                            Expanded(
+                              child: Text(
+                                'Registro',
+                                textAlign: TextAlign.center,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline1
+                                    .copyWith(color: Color(0xFF333333)),
+                              ),
+                            ),
+                            Container(width: 28),
+                          ],
                         ),
                         Container(height: 20),
                         Text(
-                          '¡Comencemos colocando datos de la cuenta!',
+                          '¡Completa con información personal!',
                           overflow: TextOverflow.ellipsis,
                           style: Theme.of(context).textTheme.headline4,
                         ),
@@ -91,19 +115,33 @@ class _RegistroScreenState extends State<RegistroScreen> {
                           width: 400,
                           alignment: Alignment.center,
                           child: textField(listaControladores[0], 0, context,
-                              'Usuario', '', false, 0, MdiIcons.account),
+                              'Nombre(s)', '', false, 0, MdiIcons.account),
                         ),
                         Container(
                           width: 400,
                           alignment: Alignment.center,
                           child: textField(listaControladores[1], 1, context,
-                              'Correo', '', false, 0, MdiIcons.account),
+                              'Apellido', '', false, 0, MdiIcons.account),
                         ),
                         Container(
                           width: 400,
                           alignment: Alignment.center,
-                          child: textField(listaControladores[2], 2, context,
-                              'Contraseña', '', true, 0, MdiIcons.account),
+                          child: textField(listaControladores[1], 1, context,
+                              'País', '', false, 0, MdiIcons.flag),
+                        ),
+                        Container(
+                          width: 400,
+                          alignment: Alignment.center,
+                          child: textField(
+                            listaControladores[1],
+                            1,
+                            context,
+                            'Edad',
+                            '',
+                            false,
+                            0,
+                            MdiIcons.cakeVariant,
+                          ),
                         ),
                         Container(height: 20),
                         Container(
@@ -115,7 +153,7 @@ class _RegistroScreenState extends State<RegistroScreen> {
                                   .primaryColor
                                   .withOpacity(.15),
                             ),
-                            child: Text('Continuar'),
+                            child: Text('Registrarse'),
                             onPressed: () {
                               Navigator.pushReplacement(
                                 context,
@@ -126,7 +164,7 @@ class _RegistroScreenState extends State<RegistroScreen> {
                                         create: (context) => MenuController(),
                                       ),
                                     ],
-                                    child: MainScreen(),
+                                    child: MainScreen(0),
                                   ),
                                 ),
                               );
@@ -134,31 +172,6 @@ class _RegistroScreenState extends State<RegistroScreen> {
                           ),
                         ),
                         Container(height: 15),
-                        Container(
-                          width: 300,
-                          margin: EdgeInsets.all(5),
-                          child: TextButton(
-                            child: Text('Cancelar'),
-                            style: TextButton.styleFrom(
-                              backgroundColor: Colors.red.withOpacity(.15),
-                            ),
-                            onPressed: () {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => MultiProvider(
-                                    providers: [
-                                      ChangeNotifierProvider(
-                                        create: (context) => MenuController(),
-                                      ),
-                                    ],
-                                    child: LoginScreen(),
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        ),
                       ],
                     ),
                   ),

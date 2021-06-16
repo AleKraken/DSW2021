@@ -4,7 +4,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:provider/provider.dart';
 import 'package:proyecto_web/controllers/loginController.dart';
 import 'package:proyecto_web/controllers/menuController.dart';
-import 'package:proyecto_web/screens/generalScreen/components/registroScreen.dart';
+import 'package:proyecto_web/screens/components/registroScreen1.dart';
 import 'package:proyecto_web/screens/main/mainScreen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -40,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: SingleChildScrollView(
           child: Container(
             constraints: BoxConstraints(
-              minHeight: 350,
+              minHeight: 330,
             ),
             height: MediaQuery.of(context).size.height,
             padding: EdgeInsets.all(30),
@@ -68,11 +68,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     ],
                   ),
                   padding: EdgeInsets.symmetric(vertical: 20, horizontal: 7),
-                  height: 450,
+                  height: 410,
                   width: MediaQuery.of(context).size.width - 80,
                   constraints: BoxConstraints(
                     maxWidth: 400,
-                    minHeight: 450,
+                    minHeight: 410,
                   ),
                   child: SingleChildScrollView(
                     child: Column(
@@ -129,7 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                 MenuController(),
                                           ),
                                         ],
-                                        child: MainScreen(),
+                                        child: MainScreen(0),
                                       ),
                                     ),
                                   );

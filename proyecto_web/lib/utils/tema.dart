@@ -49,7 +49,7 @@ ThemeData temaPrincipal() {
         subtitle2: base.headline1.copyWith(
           fontFamily: GoogleFonts.montserrat().fontFamily,
           fontSize: 11.0,
-          fontWeight: FontWeight.bold,
+          fontWeight: FontWeight.normal,
           color: Color(0xF242526).withOpacity(.7),
         ),
         bodyText1: base.bodyText1.copyWith(

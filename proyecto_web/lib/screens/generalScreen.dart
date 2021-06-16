@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:proyecto_web/screens/generalScreen/components/inicioScreen.dart';
+import 'package:proyecto_web/screens/components/inicioScreen.dart';
 
 class GeneralScreen extends StatelessWidget {
   @override

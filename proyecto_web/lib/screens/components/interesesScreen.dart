@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:proyecto_web/responsive.dart';
-import 'package:proyecto_web/screens/generalScreen/components/interesComponent.dart';
+import 'package:proyecto_web/screens/components/interesComponent.dart';
 
 class InteresesScreen extends StatefulWidget {
   InteresesScreen({Key key}) : super(key: key);
@@ -66,7 +66,7 @@ class _InteresesScreenState extends State<InteresesScreen> {
                             : 3,
                   ),
                   itemBuilder: (_, index) =>
-                      InteresComponent(interesesActuales[index], true),
+                      InteresComponent(interesesActuales[index], true, false),
                   itemCount: interesesActuales.length,
                 ),
                 Container(height: 40),
@@ -95,7 +95,7 @@ class _InteresesScreenState extends State<InteresesScreen> {
                             : 3,
                   ),
                   itemBuilder: (_, index) =>
-                      InteresComponent(interesesActuales[index], false),
+                      InteresComponent(interesesActuales[index], false, false),
                   itemCount: interesesActuales.length,
                 ),
                 Row(
