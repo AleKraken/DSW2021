@@ -6,6 +6,7 @@ import 'package:proyecto_web/screens/components/configuracionScreen.dart';
 import 'package:proyecto_web/screens/components/inicioScreen.dart';
 import 'package:proyecto_web/screens/components/interesesScreen.dart';
 import 'package:proyecto_web/screens/components/loginScreen.dart';
+import 'package:proyecto_web/screens/components/perfilUsuario.dart';
 import 'package:proyecto_web/screens/main/components/sideMenuTile.dart';
 import 'package:proyecto_web/responsive.dart';
 import 'package:provider/provider.dart';
@@ -23,12 +24,13 @@ class _MainScreenState extends State<MainScreen> {
     InteresesScreen(),
     ChatsScreen(),
     ConfiguracionScreen(),
+    PerfilUsuario(),
   ];
 
   PageController pageController = new PageController(
-    initialPage: 2,
+    initialPage: 4,
   );
-  int paginaSeleccionada = 2;
+  int paginaSeleccionada = 4;
 
   @override
   Widget build(BuildContext context) {
@@ -123,50 +125,43 @@ class _MainScreenState extends State<MainScreen> {
                             child: Container(
                               margin: EdgeInsets.symmetric(horizontal: 5),
                               child: TextButton(
-                                child: Text('Alejandro Ortega',
-                                    textAlign: TextAlign.center,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headline4
-                                        .copyWith(fontWeight: FontWeight.bold)),
-                                onPressed: () {},
+                                style: ButtonStyle(
+                                  padding: MaterialStateProperty.all(
+                                      EdgeInsets.symmetric(
+                                          vertical: 10, horizontal: 4)),
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('Alejandro Ortega',
+                                        textAlign: TextAlign.start,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline4
+                                            .copyWith(
+                                                fontWeight: FontWeight.bold)),
+                                    Text(
+                                      'Editar perfil',
+                                      textAlign: TextAlign.start,
+                                      style:
+                                          Theme.of(context).textTheme.subtitle2,
+                                    ),
+                                  ],
+                                ),
+                                onPressed: () {
+                                  if (this.mounted) {
+                                    setState(() {
+                                      paginaSeleccionada = 4;
+                                      pageController.jumpToPage(4);
+                                    });
+                                  }
+                                },
                               ),
                             ),
                           ),
                         ],
                       ),
                       Container(height: 3),
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        margin: EdgeInsets.symmetric(horizontal: 5),
-                        child: TextButton(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text('Ver perfil', textAlign: TextAlign.center),
-                              Container(
-                                width: 25,
-                                child: Icon(MdiIcons.logout, size: 18),
-                              ),
-                            ],
-                          ),
-                          onPressed: () {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => MultiProvider(
-                                  providers: [
-                                    ChangeNotifierProvider(
-                                      create: (context) => MenuController(),
-                                    ),
-                                  ],
-                                  child: LoginScreen(),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
                     ],
                   ),
                 ),
