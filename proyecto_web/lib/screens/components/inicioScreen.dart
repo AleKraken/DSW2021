@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:proyecto_web/responsive.dart';
 
 class InicioScreen extends StatefulWidget {
   InicioScreen({Key key}) : super(key: key);

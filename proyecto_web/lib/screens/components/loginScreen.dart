@@ -1,26 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:proyecto_web/controllers/loginController.dart';
 import 'package:proyecto_web/controllers/menuController.dart';
-import 'package:proyecto_web/screens/generalScreen/components/loginScreen.dart';
+import 'package:proyecto_web/screens/components/registroScreen.dart';
 import 'package:proyecto_web/screens/main/mainScreen.dart';
 
-class RegistroScreen extends StatefulWidget {
-  RegistroScreen({Key key}) : super(key: key);
+class LoginScreen extends StatefulWidget {
+  LoginScreen({Key key}) : super(key: key);
 
   @override
-  _RegistroScreenState createState() => _RegistroScreenState();
+  _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _RegistroScreenState extends State<RegistroScreen> {
+class _LoginScreenState extends State<LoginScreen> {
   final List<TextEditingController> listaControladores =
       <TextEditingController>[];
   final List<FocusNode> listaFocus = <FocusNode>[];
 
+  bool validando = false;
+
   @override
   void initState() {
     super.initState();
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 2; i++) {
       listaControladores.add(new TextEditingController());
       listaFocus.add(new FocusNode());
     }
@@ -64,6 +68,7 @@ class _RegistroScreenState extends State<RegistroScreen> {
                     ],
                   ),
                   padding: EdgeInsets.symmetric(vertical: 20, horizontal: 7),
+                  height: 450,
                   width: MediaQuery.of(context).size.width - 80,
                   constraints: BoxConstraints(
                     maxWidth: 400,
@@ -74,17 +79,11 @@ class _RegistroScreenState extends State<RegistroScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          'Registro',
+                          'Iniciar Sesión',
                           style: Theme.of(context)
                               .textTheme
                               .headline1
                               .copyWith(color: Color(0xFF333333)),
-                        ),
-                        Container(height: 20),
-                        Text(
-                          '¡Comencemos colocando datos de la cuenta!',
-                          overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context).textTheme.headline4,
                         ),
                         Container(height: 50),
                         Container(
@@ -97,12 +96,6 @@ class _RegistroScreenState extends State<RegistroScreen> {
                           width: 400,
                           alignment: Alignment.center,
                           child: textField(listaControladores[1], 1, context,
-                              'Correo', '', false, 0, MdiIcons.account),
-                        ),
-                        Container(
-                          width: 400,
-                          alignment: Alignment.center,
-                          child: textField(listaControladores[2], 2, context,
                               'Contraseña', '', true, 0, MdiIcons.account),
                         ),
                         Container(height: 20),
@@ -115,21 +108,38 @@ class _RegistroScreenState extends State<RegistroScreen> {
                                   .primaryColor
                                   .withOpacity(.15),
                             ),
-                            child: Text('Continuar'),
-                            onPressed: () {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => MultiProvider(
-                                    providers: [
-                                      ChangeNotifierProvider(
-                                        create: (context) => MenuController(),
+                            child: validando
+                                ? CircularProgressIndicator()
+                                : Text('Iniciar'),
+                            onPressed: () async {
+                              //VALIDAR LAS CREDENCIALES
+                              if (!validando) {
+                                validando = true;
+                                if (await LoginController.validarCredenciales(
+                                  listaControladores[0].text,
+                                  listaControladores[1].text,
+                                )) {
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => MultiProvider(
+                                        providers: [
+                                          ChangeNotifierProvider(
+                                            create: (context) =>
+                                                MenuController(),
+                                          ),
+                                        ],
+                                        child: MainScreen(),
                                       ),
-                                    ],
-                                    child: MainScreen(),
-                                  ),
-                                ),
-                              );
+                                    ),
+                                  );
+                                }
+                                {}
+                                validando = false;
+                              }
+                              /*
+                             
+                              */
                             },
                           ),
                         ),
@@ -138,24 +148,23 @@ class _RegistroScreenState extends State<RegistroScreen> {
                           width: 300,
                           margin: EdgeInsets.all(5),
                           child: TextButton(
-                            child: Text('Cancelar'),
-                            style: TextButton.styleFrom(
-                              backgroundColor: Colors.red.withOpacity(.15),
-                            ),
+                            child: Text('¿No tienes una cuenta? Regístrate'),
                             onPressed: () {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => MultiProvider(
-                                    providers: [
-                                      ChangeNotifierProvider(
-                                        create: (context) => MenuController(),
-                                      ),
-                                    ],
-                                    child: LoginScreen(),
+                              if (!validando) {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => MultiProvider(
+                                      providers: [
+                                        ChangeNotifierProvider(
+                                          create: (context) => MenuController(),
+                                        ),
+                                      ],
+                                      child: RegistroScreen(),
+                                    ),
                                   ),
-                                ),
-                              );
+                                );
+                              }
                             },
                           ),
                         ),
@@ -240,3 +249,35 @@ class _RegistroScreenState extends State<RegistroScreen> {
     );
   }
 }
+
+
+/*
+FutureBuilder(
+      future: DatabaseProvider.db
+          .getComidasDelDia()
+          .then((listaComidas) => listaComidasDelDia = listaComidas),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Container();
+        } else {
+          for (int i = 0; i < listaComidasDelDia.length; i++) {
+            listaBotones.add(
+              Container(
+                height: 30,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(colors: [
+                    Theme.of(context).buttonColor,
+                    Color(0xFF038DB2),
+                  ]),
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      blurRadius: 6,
+                      color: Theme.of(context).shadowColor,
+                      offset: const Offset(0, 3),
+                      spreadRadius: 0,
+                    ),
+                  ],
+                ),
+                child: 
+                */

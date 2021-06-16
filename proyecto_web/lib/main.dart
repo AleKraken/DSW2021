@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:proyecto_web/controllers/menuController.dart';
-import 'package:proyecto_web/screens/generalScreen/components/loginScreen.dart';
+import 'package:proyecto_web/screens/components/loginScreen.dart';
 import 'package:provider/provider.dart';
+import 'package:proyecto_web/screens/main/mainScreen.dart';
 import 'package:proyecto_web/utils/tema.dart';
 
 void main() {
@@ -21,8 +22,8 @@ class MyApp extends StatelessWidget {
             create: (context) => MenuController(),
           ),
         ],
-        child: LoginScreen(),
-        //MainScreen(),
+        child: //LoginScreen(),
+            MainScreen(),
       ),
     );
   }
