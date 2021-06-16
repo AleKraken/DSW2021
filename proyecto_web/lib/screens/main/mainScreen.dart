@@ -6,31 +6,44 @@ import 'package:proyecto_web/screens/components/configuracionScreen.dart';
 import 'package:proyecto_web/screens/components/inicioScreen.dart';
 import 'package:proyecto_web/screens/components/interesesScreen.dart';
 import 'package:proyecto_web/screens/components/loginScreen.dart';
-import 'package:proyecto_web/screens/components/perfilUsuario.dart';
+import 'package:proyecto_web/screens/components/perfilUsuarioScreen.dart';
+import 'package:proyecto_web/screens/components/vistaUsuarioScreen.dart';
 import 'package:proyecto_web/screens/main/components/sideMenuTile.dart';
 import 'package:proyecto_web/responsive.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MainScreen extends StatefulWidget {
-  MainScreen({Key key}) : super(key: key);
+  final int pantallaInicio;
+  MainScreen(this.pantallaInicio);
 
   @override
-  _MainScreenState createState() => _MainScreenState();
+  _MainScreenState createState() => _MainScreenState(pantallaInicio);
 }
 
 class _MainScreenState extends State<MainScreen> {
+  final int pantallaInicio;
+  _MainScreenState(this.pantallaInicio);
+
   var paginas = [
     InicioScreen(),
     InteresesScreen(),
     ChatsScreen(),
     ConfiguracionScreen(),
     PerfilUsuario(),
+    VistaUsuario(),
   ];
 
-  PageController pageController = new PageController(
-    initialPage: 4,
-  );
-  int paginaSeleccionada = 4;
+  PageController pageController;
+
+  int paginaSeleccionada;
+
+  @override
+  void initState() {
+    pageController = new PageController(initialPage: pantallaInicio);
+    paginaSeleccionada = pantallaInicio;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,8 +56,9 @@ class _MainScreenState extends State<MainScreen> {
           children: [
             Row(
               children: [
-                if (Responsive.isDesktop(context))
-                  Expanded(flex: 1, child: Container()),
+                Responsive.isDesktop(context)
+                    ? Expanded(flex: 1, child: Container())
+                    : Container(),
                 Expanded(
                   flex: 5,
                   child: Column(

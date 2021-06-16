@@ -65,7 +65,7 @@ class _ChatIndividualState extends State<ChatIndividual> {
             spreadRadius: -8,
           ),
         ],
-        color: Theme.of(context).backgroundColor,
+        color: Theme.of(context).primaryColor,
       ),
       height: 40,
       child: Text(
@@ -76,7 +76,7 @@ class _ChatIndividualState extends State<ChatIndividual> {
         style: Theme.of(context)
             .textTheme
             .headline4
-            .copyWith(fontWeight: FontWeight.bold),
+            .copyWith(fontWeight: FontWeight.bold, color: Colors.white),
       ),
     );
   }

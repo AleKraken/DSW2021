@@ -129,7 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                 MenuController(),
                                           ),
                                         ],
-                                        child: MainScreen(),
+                                        child: MainScreen(0),
                                       ),
                                     ),
                                   );

@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:proyecto_web/controllers/menuController.dart';
+import 'package:proyecto_web/screens/components/vistaUsuarioScreen.dart';
+import 'package:proyecto_web/screens/main/mainScreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class InicioScreen extends StatefulWidget {
   InicioScreen({Key key}) : super(key: key);
@@ -70,7 +75,9 @@ class _InicioScreenState extends State<InicioScreen> {
 
   Widget cardPersona(int index) {
     return TextButton(
-      onPressed: () {},
+      onPressed: () {
+        mostrarVistaUsuario(context);
+      },
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 15),
         margin: EdgeInsets.only(bottom: 60),
@@ -133,7 +140,7 @@ class _InicioScreenState extends State<InicioScreen> {
                         image: DecorationImage(
                           //fit: BoxFit.cover,
                           image: NetworkImage(
-                              "https://cdn.iconscout.com/icon/free/png-256/mexico-3470805-2903258.png"),
+                              "https://image.flaticon.com/icons/png/512/3937/3937938.png"),
                         ),
                       ),
                     ),
@@ -143,6 +150,32 @@ class _InicioScreenState extends State<InicioScreen> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  mostrarVistaUsuario(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (_) => new AlertDialog(
+        insetPadding: EdgeInsets.zero,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10.0))),
+        content: Builder(builder: (context) {
+          // Get available height and width of the build area of this widget. Make a choice depending on the size.
+          var height = MediaQuery.of(context).size.height;
+          var width = MediaQuery.of(context).size.width;
+
+          return SingleChildScrollView(
+            child: Wrap(
+              alignment: WrapAlignment.center,
+              clipBehavior: Clip.antiAlias,
+              children: [
+                VistaUsuario(),
+              ],
+            ),
+          );
+        }),
       ),
     );
   }

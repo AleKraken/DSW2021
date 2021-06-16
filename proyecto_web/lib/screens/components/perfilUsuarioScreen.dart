@@ -25,24 +25,17 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: GestureDetector(
+    return Container(
+      child: GestureDetector(
         onTap: () {
           FocusScope.of(context).requestFocus(new FocusNode());
         },
-        child: SingleChildScrollView(
-          child: Container(
-            padding: EdgeInsets.all(30),
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: NetworkImage(
-                    "https://russo.xyz/beta/wp-content/uploads/2019/07/grad.gif"),
-              ),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+        child: Container(
+          alignment: Alignment.center,
+          child: SingleChildScrollView(
+            child: Column(
               children: [
+                Container(height: 20),
                 Container(
                   decoration: BoxDecoration(
                     color: Theme.of(context).cardColor,
@@ -62,7 +55,7 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
                     maxWidth: 700,
                   ),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
                         height: 105,
@@ -141,6 +134,7 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
                     ],
                   ),
                 ),
+                Container(height: 20),
               ],
             ),
           ),

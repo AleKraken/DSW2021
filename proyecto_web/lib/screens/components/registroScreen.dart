@@ -126,7 +126,7 @@ class _RegistroScreenState extends State<RegistroScreen> {
                                         create: (context) => MenuController(),
                                       ),
                                     ],
-                                    child: MainScreen(),
+                                    child: MainScreen(0),
                                   ),
                                 ),
                               );
