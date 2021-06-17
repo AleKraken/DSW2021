@@ -31,6 +31,19 @@ class CallApi {
     );
   }
 
+  
+  editarUsuario(data, apiUrl) async {
+    var fullUrl = _url + apiUrl;
+    return await http.put(
+      Uri.parse(fullUrl),
+      body: jsonEncode(data),
+      headers: {
+        HttpHeaders.contentTypeHeader: "application/json",
+        HttpHeaders.authorizationHeader: await _getToken(),
+      },
+    );
+  }
+
   getData(apiUrl) async {
     var fullUrl = _url + apiUrl;
     return await http.get(
