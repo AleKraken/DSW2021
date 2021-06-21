@@ -26,6 +26,10 @@ dependencies:
   google_fonts: ^2.1.0
   http: ^0.13.3
   shared_preferences: ^2.0.6
+  animate_do: ^2.0.0
+  awesome_dropdown: ^0.0.4
+  dropdown_date_picker: ^0.1.1+2
+  age_calculator: ^1.0.0
 
   flutter:
     sdk: flutter
@@ -38,6 +42,12 @@ dependencies:
   cupertino_icons: ^1.0.2
 
 dev_dependencies:
+  flutter_web_image_picker: ^0.0.2
+  image_picker: ^0.8.0+3
+  dio: ^4.0.0
+  syncfusion_flutter_datepicker: ^19.1.69-beta
+
+  
   flutter_test:
     sdk: flutter
 

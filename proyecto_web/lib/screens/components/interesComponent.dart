@@ -52,20 +52,22 @@ class _InteresComponentState extends State<InteresComponent> {
               ),
             ),
           ),
-          TextButton(
-            style: TextButton.styleFrom(
-                padding: EdgeInsets.zero,
-                minimumSize: Size(50, soloVista ? 20 : 30),
-                alignment: Alignment.centerLeft),
-            onPressed: () {},
-            child: Container(
-              width: 45,
-              height: soloVista ? 28 : 45,
-              child: Icon(
-                estaAgregado ? MdiIcons.close : MdiIcons.plus,
-              ),
-            ),
-          ),
+          soloVista
+              ? Container()
+              : TextButton(
+                  style: TextButton.styleFrom(
+                      padding: EdgeInsets.zero,
+                      minimumSize: Size(50, soloVista ? 20 : 30),
+                      alignment: Alignment.centerLeft),
+                  onPressed: () {},
+                  child: Container(
+                    width: 45,
+                    height: soloVista ? 28 : 45,
+                    child: Icon(
+                      estaAgregado ? MdiIcons.close : MdiIcons.plus,
+                    ),
+                  ),
+                ),
         ],
       ),
     );

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:proyecto_web/responsive.dart';
-import 'package:proyecto_web/screens/components/chatIndividualScreen.dart';
+import 'package:proyecto_web/screens/chatIndividualScreen.dart';
 
 class ChatsScreen extends StatefulWidget {
   @override

@@ -1,25 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:proyecto_web/controllers/loginController.dart';
 import 'package:proyecto_web/controllers/menuController.dart';
-import 'package:proyecto_web/screens/components/registroScreen1.dart';
-import 'package:proyecto_web/screens/main/mainScreen.dart';
+import 'package:proyecto_web/screens/loginScreen.dart';
+import 'package:proyecto_web/screens/registroScreen2.dart';
 
-class LoginScreen extends StatefulWidget {
-  LoginScreen({Key key}) : super(key: key);
+class RegistroScreen extends StatefulWidget {
+  RegistroScreen({Key key}) : super(key: key);
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _RegistroScreenState createState() => _RegistroScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _RegistroScreenState extends State<RegistroScreen> {
   final List<TextEditingController> listaControladores =
       <TextEditingController>[];
   final List<FocusNode> listaFocus = <FocusNode>[];
-
-  bool validando = false;
 
   @override
   void initState() {
@@ -40,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: SingleChildScrollView(
           child: Container(
             constraints: BoxConstraints(
-              minHeight: 330,
+              minHeight: 350,
             ),
             height: MediaQuery.of(context).size.height,
             padding: EdgeInsets.all(30),
@@ -68,7 +64,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     ],
                   ),
                   padding: EdgeInsets.symmetric(vertical: 20, horizontal: 7),
-                  height: 410,
                   width: MediaQuery.of(context).size.width - 80,
                   constraints: BoxConstraints(
                     maxWidth: 400,
@@ -78,19 +73,51 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
+                        Row(
+                          children: [
+                            IconButton(
+                              icon: Icon(MdiIcons.arrowLeft),
+                              onPressed: () {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => MultiProvider(
+                                      providers: [
+                                        ChangeNotifierProvider(
+                                          create: (context) => MenuController(),
+                                        ),
+                                      ],
+                                      child: LoginScreen(),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                            Expanded(
+                              child: Text(
+                                'Registro',
+                                textAlign: TextAlign.center,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline1
+                                    .copyWith(color: Color(0xFF333333)),
+                              ),
+                            ),
+                            Container(width: 28),
+                          ],
+                        ),
+                        Container(height: 20),
                         Text(
-                          'Iniciar Sesión',
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline1
-                              .copyWith(color: Color(0xFF333333)),
+                          '¡Comencemos colocando datos de la cuenta!',
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context).textTheme.headline4,
                         ),
                         Container(height: 50),
                         Container(
                           width: 400,
                           alignment: Alignment.center,
                           child: textField(listaControladores[0], 0, context,
-                              'Usuario', '', false, 0, MdiIcons.account),
+                              'Correo', '', false, 0, MdiIcons.account),
                         ),
                         Container(
                           width: 400,
@@ -108,66 +135,28 @@ class _LoginScreenState extends State<LoginScreen> {
                                   .primaryColor
                                   .withOpacity(.15),
                             ),
-                            child: validando
-                                ? CircularProgressIndicator()
-                                : Text('Iniciar'),
-                            onPressed: () async {
-                              //VALIDAR LAS CREDENCIALES
-                              if (!validando) {
-                                validando = true;
-                                if (await LoginController.validarCredenciales(
-                                  listaControladores[0].text,
-                                  listaControladores[1].text,
-                                )) {
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => MultiProvider(
-                                        providers: [
-                                          ChangeNotifierProvider(
-                                            create: (context) =>
-                                                MenuController(),
-                                          ),
-                                        ],
-                                        child: MainScreen(0),
+                            child: Text('Continuar'),
+                            onPressed: () {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => MultiProvider(
+                                    providers: [
+                                      ChangeNotifierProvider(
+                                        create: (context) => MenuController(),
                                       ),
+                                    ],
+                                    child: RegistroScreen2(
+                                      listaControladores[0].text,
+                                      listaControladores[1].text,
                                     ),
-                                  );
-                                }
-                                {}
-                                validando = false;
-                              }
-                              /*
-                             
-                              */
+                                  ),
+                                ),
+                              );
                             },
                           ),
                         ),
                         Container(height: 15),
-                        Container(
-                          width: 300,
-                          margin: EdgeInsets.all(5),
-                          child: TextButton(
-                            child: Text('¿No tienes una cuenta? Regístrate'),
-                            onPressed: () {
-                              if (!validando) {
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => MultiProvider(
-                                      providers: [
-                                        ChangeNotifierProvider(
-                                          create: (context) => MenuController(),
-                                        ),
-                                      ],
-                                      child: RegistroScreen(),
-                                    ),
-                                  ),
-                                );
-                              }
-                            },
-                          ),
-                        ),
                       ],
                     ),
                   ),
@@ -249,35 +238,3 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
-
-
-/*
-FutureBuilder(
-      future: DatabaseProvider.db
-          .getComidasDelDia()
-          .then((listaComidas) => listaComidasDelDia = listaComidas),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Container();
-        } else {
-          for (int i = 0; i < listaComidasDelDia.length; i++) {
-            listaBotones.add(
-              Container(
-                height: 30,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: [
-                    Theme.of(context).buttonColor,
-                    Color(0xFF038DB2),
-                  ]),
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(
-                      blurRadius: 6,
-                      color: Theme.of(context).shadowColor,
-                      offset: const Offset(0, 3),
-                      spreadRadius: 0,
-                    ),
-                  ],
-                ),
-                child: 
-                */

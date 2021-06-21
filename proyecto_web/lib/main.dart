@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:proyecto_web/controllers/menuController.dart';
-import 'package:proyecto_web/screens/components/loginScreen.dart';
+import 'package:proyecto_web/screens/loginScreen.dart';
 import 'package:provider/provider.dart';
-import 'package:proyecto_web/screens/main/mainScreen.dart';
 import 'package:proyecto_web/sharedPreferences/SPHelper.dart';
 import 'package:proyecto_web/utils/tema.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,7 +19,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Web Project',
+      title: 'Proyecto Web',
       theme: temaPrincipal(),
       home: MultiProvider(
         providers: [
