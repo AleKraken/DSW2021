@@ -8,6 +8,7 @@ import 'package:proyecto_web/controllers/usuarioController.dart';
 import 'package:proyecto_web/models/usuario.dart';
 import 'package:proyecto_web/screens/registroScreen1.dart';
 import 'package:proyecto_web/screens/main/mainScreen.dart';
+import 'package:proyecto_web/sharedPreferences/SPHelper.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key key}) : super(key: key);
@@ -48,13 +49,17 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             height: MediaQuery.of(context).size.height,
             padding: EdgeInsets.all(30),
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: NetworkImage(
-                    "https://russo.xyz/beta/wp-content/uploads/2019/07/grad.gif"),
-              ),
-            ),
+            decoration: SPHelper.getInt('fondoEstatico') == 0
+                ? BoxDecoration(
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: NetworkImage(
+                          "https://russo.xyz/beta/wp-content/uploads/2019/07/grad.gif"),
+                    ),
+                  )
+                : BoxDecoration(
+                    color: Theme.of(context).primaryColor,
+                  ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

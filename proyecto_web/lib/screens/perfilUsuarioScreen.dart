@@ -63,19 +63,6 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
     });
   }
 
-  /*
-
-  final ImagePicker _picker = ImagePicker();
-    PickedFile _archivo = await _picker.getImage(
-      source: ImageSource.gallery,
-      imageQuality: 50,
-      maxHeight: 500.0,
-      maxWidth: 500.0,
-    );
-
-    RegistroController.subirFoto(_archivo);
-    */
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -148,7 +135,7 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
                                         decoration: BoxDecoration(
                                           image: DecorationImage(
                                             image: NetworkImage(
-                                                "https://www.peterbe.com/avatar.1.png"),
+                                                "https://www.peterbe.com/avatar.${usuario.id}.png"),
                                           ),
                                         ),
                                       ),

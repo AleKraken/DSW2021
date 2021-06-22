@@ -63,44 +63,43 @@ class _InicioScreenState extends State<InicioScreen> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Container(
-        child: FutureBuilder(
-            future: _futureUsuarios,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
-              } else {
-                return Column(
-                  children: [
-                    Container(height: 65),
-                    Text(
-                      '¿Listo para crear nuevas amistades?',
-                      style: Theme.of(context).textTheme.headline1,
-                      textAlign: TextAlign.center,
-                    ),
-                    Container(height: 40),
-                    TextButton(
-                      style: TextButton.styleFrom(
-                          backgroundColor: Color(0xFF26A3D7),
-                          elevation: 10,
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 40, vertical: 30),
-                          alignment: Alignment.centerLeft),
-                      child: Text(
-                        'Encontrar a alguien',
-                        style: Theme.of(context).textTheme.headline2,
-                        textAlign: TextAlign.center,
-                      ),
-                      onPressed: () {},
-                    ),
-                    Container(height: 80),
-                    Text(
-                      'También te recomendamos hablar con...',
-                      style: Theme.of(context).textTheme.headline1,
-                      textAlign: TextAlign.center,
-                      textScaleFactor: .86,
-                    ),
-                    Container(height: 40),
-                    Wrap(
+        child: Column(
+          children: [
+            Container(height: 65),
+            Text(
+              '¿Listo para crear nuevas amistades?',
+              style: Theme.of(context).textTheme.headline1,
+              textAlign: TextAlign.center,
+            ),
+            Container(height: 40),
+            TextButton(
+              style: TextButton.styleFrom(
+                  backgroundColor: Color(0xFF26A3D7),
+                  elevation: 10,
+                  padding: EdgeInsets.symmetric(horizontal: 40, vertical: 30),
+                  alignment: Alignment.centerLeft),
+              child: Text(
+                'Encontrar a alguien',
+                style: Theme.of(context).textTheme.headline2,
+                textAlign: TextAlign.center,
+              ),
+              onPressed: () {},
+            ),
+            Container(height: 80),
+            Text(
+              'También te recomendamos hablar con...',
+              style: Theme.of(context).textTheme.headline1,
+              textAlign: TextAlign.center,
+              textScaleFactor: .86,
+            ),
+            Container(height: 40),
+            FutureBuilder(
+                future: _futureUsuarios,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  } else {
+                    return Wrap(
                       children: [
                         GridView.builder(
                           shrinkWrap: true,
@@ -120,11 +119,11 @@ class _InicioScreenState extends State<InicioScreen> {
                           itemCount: usuarios.length,
                         ),
                       ],
-                    ),
-                  ],
-                );
-              }
-            }),
+                    );
+                  }
+                }),
+          ],
+        ),
       ),
     );
   }

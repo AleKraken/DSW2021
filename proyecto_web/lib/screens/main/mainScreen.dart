@@ -12,6 +12,7 @@ import 'package:proyecto_web/screens/vistaUsuarioScreen.dart';
 import 'package:proyecto_web/screens/main/components/sideMenuTile.dart';
 import 'package:proyecto_web/responsive.dart';
 import 'package:provider/provider.dart';
+import 'package:proyecto_web/sharedPreferences/SPHelper.dart';
 
 class MainScreen extends StatefulWidget {
   final int pantallaInicio;
@@ -75,13 +76,19 @@ class _MainScreenState extends State<MainScreen> {
                                 child: Container(
                                   height: MediaQuery.of(context).size.height,
                                   width: MediaQuery.of(context).size.width,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: NetworkImage(
-                                          "https://russo.xyz/beta/wp-content/uploads/2019/07/grad.gif"),
-                                    ),
-                                  ),
+                                  decoration:
+                                      SPHelper.getInt('fondoEstatico') == 0
+                                          ? BoxDecoration(
+                                              image: DecorationImage(
+                                                fit: BoxFit.cover,
+                                                image: NetworkImage(
+                                                    "https://russo.xyz/beta/wp-content/uploads/2019/07/grad.gif"),
+                                              ),
+                                            )
+                                          : BoxDecoration(
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                            ),
                                   child: PageView(
                                     physics: NeverScrollableScrollPhysics(),
                                     children: paginas,
