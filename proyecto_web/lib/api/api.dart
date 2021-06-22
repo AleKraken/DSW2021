@@ -66,6 +66,17 @@ class CallApi {
     );
   }
 
+  deleteData(apiUrl) async {
+    var fullUrl = _url + apiUrl;
+    return await http.delete(
+      Uri.parse(fullUrl),
+      headers: {
+        HttpHeaders.contentTypeHeader: "application/json",
+        HttpHeaders.authorizationHeader: _getToken()
+      },
+    );
+  }
+
   _getToken() {
     return 'Bearer ${SPHelper.getString('token')}';
   }
